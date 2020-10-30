@@ -1,3 +1,9 @@
+#  Copyright 2020 Zeppelin Bend Pty Ltd
+#
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 import asyncio
 import argparse
 import logging
@@ -15,17 +21,17 @@ def create_lightpoles() -> NetworkService:
     """
     network = NetworkService()
 
-    pole1 = Pole("pole1")
-    streetlight1 = Streetlight("streetlight1", light_rating=10, lamp_kind=StreetlightLampKind.HIGH_PRESSURE_SODIUM, pole=pole1)
+    pole1 = Pole(mrid="pole1")
+    streetlight1 = Streetlight(mrid="streetlight1", light_rating=10, lamp_kind=StreetlightLampKind.HIGH_PRESSURE_SODIUM, pole=pole1)
     pole1.add_streetlight(streetlight1)
 
     network.add(pole1)
     network.add(streetlight1)
 
-    multi_light_pole = Pole("pole2")
-    streetlight2 = Streetlight("streetlight2", light_rating=10, lamp_kind=StreetlightLampKind.HIGH_PRESSURE_SODIUM, pole=multi_light_pole)
-    streetlight3 = Streetlight("streetlight3", light_rating=20, lamp_kind=StreetlightLampKind.MERCURY_VAPOR, pole=multi_light_pole)
-    streetlight4 = Streetlight("streetlight4", light_rating=5, lamp_kind=StreetlightLampKind.UNKNOWN, pole=multi_light_pole)
+    multi_light_pole = Pole(mrid="pole2")
+    streetlight2 = Streetlight(mrid="streetlight2", light_rating=10, lamp_kind=StreetlightLampKind.HIGH_PRESSURE_SODIUM, pole=multi_light_pole)
+    streetlight3 = Streetlight(mrid="streetlight3", light_rating=20, lamp_kind=StreetlightLampKind.MERCURY_VAPOR, pole=multi_light_pole)
+    streetlight4 = Streetlight(mrid="streetlight4", light_rating=5, lamp_kind=StreetlightLampKind.UNKNOWN, pole=multi_light_pole)
     multi_light_pole.add_streetlight(streetlight2)
     multi_light_pole.add_streetlight(streetlight3)
     multi_light_pole.add_streetlight(streetlight4)
