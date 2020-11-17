@@ -8,8 +8,8 @@ import argparse
 import asyncio
 import logging
 
-from zepben.cimbend import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
-    EnergyConsumer, PerLengthSequenceImpedance, PhaseCode, EnergyConsumerPhase, SinglePhaseKind
+from zepben.cimbend import NetworkService, DiagramService, Breaker, Terminal, AcLineSegment, EnergySource, EnergyConsumer, PerLengthSequenceImpedance, \
+    PhaseCode, EnergyConsumerPhase, SinglePhaseKind, DiagramObject, Diagram, DiagramObjectPoint, DiagramObjectStyle, DiagramStyle
 from zepben.cimbend.streaming.connect import connect_async
 
 logger = logging.getLogger(__name__)
@@ -17,54 +17,77 @@ logger = logging.getLogger(__name__)
 
 def create_feeder():
     network = NetworkService()
+    diagram_service = DiagramService()
+
     cn = network.add_connectivitynode('cn0')
-    t0 = Terminal(mrid='fcb-t0', phases=PhaseCode.ABCN, connectivitynode=cn)
+    fcb = Breaker(mrid='fcb')
+    t0 = Terminal(mrid='fcb-t0', phases=PhaseCode.ABCN, connectivity_node=cn, conducting_equipment=fcb)
     network.add(t0)
+
     cn.add_terminal(t0)
     feeder_cn = network.add_connectivitynode('fcn')
-    t1 = Terminal(mrid='fcb-t1', phases=PhaseCode.ABCN, connectivitynode=feeder_cn)
+
+    t1 = Terminal(mrid='fcb-t1', phases=PhaseCode.ABCN, connectivity_node=feeder_cn, conducting_equipment=fcb)
+    fcb.add_terminal(t0)
+    fcb.add_terminal(t1)
+
     network.add(t1)
-    fcb = Breaker(mrid='fcb', terminals_=[t0, t1])
     network.add(fcb)
 
-    t0 = Terminal(mrid='acls0-t0', phases=PhaseCode.ABCN, connectivitynode=feeder_cn)
+    acls0 = AcLineSegment(mrid='acls0')
+    t0 = Terminal(mrid='acls0-t0', phases=PhaseCode.ABCN, connectivity_node=feeder_cn, conducting_equipment=acls0)
+    acls0.add_terminal(t0)
     network.add(t0)
     cn = network.add_connectivitynode('cn1')
-    t1 = Terminal(mrid='acls0-t1', phases=PhaseCode.ABCN, connectivitynode=cn)
+    t1 = Terminal(mrid='acls0-t1', phases=PhaseCode.ABCN, connectivity_node=cn, conducting_equipment=acls0)
+    acls0.add_terminal(t1)
     network.add(t1)
-    acls0 = AcLineSegment(mrid='acls0', terminals_=[t0, t1])
     network.add(acls0)
 
-    t0 = Terminal(mrid='es-t0', phases=PhaseCode.ABCN, connectivitynode=cn)
+    es = EnergySource(mrid='es')
+    t0 = Terminal(mrid='es-t0', phases=PhaseCode.ABCN, connectivity_node=cn, conducting_equipment=es)
+    es.add_terminal(t0)
     network.add(t0)
-    es = EnergySource(mrid='es', terminals_=[t0])
     network.add(es)
 
-    t0 = Terminal(mrid='acls1-t0', phases=PhaseCode.ABCN, connectivitynode=feeder_cn)
-    network.add(t0)
-    cn = network.add_connectivitynode('cn2')
-    t1 = Terminal(mrid='acls1-t1', phases=PhaseCode.ABCN, connectivitynode=cn)
-    network.add(t1)
+    diagram = Diagram(mrid='diag', diagram_style=DiagramStyle.GEOGRAPHIC)
+    do = DiagramObject(diagram=diagram, diagram_object_points=[DiagramObjectPoint(5.0, 10.0)], style=DiagramObjectStyle.ENERGY_SOURCE)
+    diagram.add_object(do)
+    diagram_service.add(diagram)
+    diagram_service.add(do)
+
     plsi0 = PerLengthSequenceImpedance(mrid='1814', r=0.000151, x=0.003, r0=0, x0=0, bch=0)
+    acls1 = AcLineSegment(mrid='acls1', per_length_sequence_impedance=plsi0)
+    t0 = Terminal(mrid='acls1-t0', phases=PhaseCode.ABCN, connectivity_node=feeder_cn, conducting_equipment=acls1)
+    network.add(t0)
+    acls1.add_terminal(t0)
+    cn = network.add_connectivitynode('cn2')
+    t1 = Terminal(mrid='acls1-t1', phases=PhaseCode.ABCN, connectivity_node=cn, conducting_equipment=acls1)
+    acls1.add_terminal(t1)
+    network.add(t1)
     network.add(plsi0)
-    acls1 = AcLineSegment(mrid='acls1', per_length_sequence_impedance=plsi0, terminals_=[t0, t1])
     network.add(acls1)
 
-    t0 = Terminal(mrid='ec-t0', phases=PhaseCode.BN, connectivitynode=cn)
+    ec = EnergyConsumer(mrid='ec')
+    ecp_b = EnergyConsumerPhase(mrid='spkb', phase=SinglePhaseKind.B, energy_consumer=ec)
+    ecp_n = EnergyConsumerPhase(mrid='spkn', phase=SinglePhaseKind.N, energy_consumer=ec)
+    ec.add_phase(ecp_b)
+    ec.add_phase(ecp_n)
+    t0 = Terminal(mrid='ec-t0', phases=PhaseCode.BN, connectivity_node=cn, conducting_equipment=ec)
+    ec.add_terminal(t0)
     network.add(t0)
-    ecp_b = EnergyConsumerPhase(mrid='spkb', phase=SinglePhaseKind.B)
     network.add(ecp_b)
-    ecp_n = EnergyConsumerPhase(mrid='spkn', phase=SinglePhaseKind.N)
     network.add(ecp_n)
-    ec = EnergyConsumer(mrid='ec', energyconsumerphases=[ecp_b, ecp_n], terminals_=[t0])
     network.add(ec)
 
-    return network
+    return network, diagram_service
 
 
 async def main():
     parser = argparse.ArgumentParser(description="Zepben cimbend demo")
-    parser.add_argument('server', help='Host and port of grpc server', metavar="host:port", nargs="?", default="localhost:50051")
+    parser.add_argument('server', help='Host and port of grpc server', metavar="host:port", nargs="?", default="localhost")
+    parser.add_argument('--rpc-port', help="The gRPC port for the server", default="50051")
+    parser.add_argument('--conf-address', help="The address to retrieve auth configuration from", default="http://localhost/auth")
     parser.add_argument('--client-id', help='Auth0 M2M client id', default="")
     parser.add_argument('--client-secret', help='Auth0 M2M client secret', default="")
     parser.add_argument('--ca', help='CA trust chain', default="")
@@ -84,10 +107,11 @@ async def main():
         client_secret = args.client_secret
         client_id = args.client_id
 
-    network = create_feeder()
+    services = create_feeder()
 
-    async with connect_async(host="postbox.localdomain", conf_port=8080, client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
-        res = await conn.send([network])
+    async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
+                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
+        res = await conn.send(services)
         # network = await conn.get_whole_network()
         # print(network['es'])
 
