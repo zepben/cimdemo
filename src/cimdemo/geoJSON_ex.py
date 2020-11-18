@@ -7,9 +7,19 @@ from tkinter import *
 import logging
 import asyncio
 import argparse
+import pydash
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+import json
+
+# Opening JSON file
+file = open('nodes-config_ee.json', "r")
+# returns JSON object as
+# a dictionary
+config_dict = json.loads(file.read())
+print(config_dict["mappings"])
 
 
 def get_path(self):
@@ -17,6 +27,13 @@ def get_path(self):
     root.filename = filedialog.askopenfilename(initialdir="F:\\Data\\EssentialEnergy\\geojson", title="Select file",
                                                filetypes=(("jpeg files", "*.geojson"), ("all files", "*.*")))
     return root.filename
+
+
+def read_mapping(path):
+    # Opening JSON file
+    file = open(path, "r")
+    # returns JSON object as a dictionary
+    return json.loads(file.read())["mappings"]
 
 
 def add_list_to_net(l, net):
@@ -28,17 +45,21 @@ class Network:
     def __init__(self):
         # self.path = get_path()
         self.path = "F:\\Data\\EssentialEnergy\\geojson\\GOG3B2.geojson"
+        self.mapping = read_mapping('nodes-config_ee.json')
         self.df = gp.read_file(self.path)
         self.ns = cim.NetworkService()
         self.ds = cim.DiagramService()
         self.diagram = self.add_diagram()
         self.voltages = self.add_base_voltages()
-        self.add_equipments()
-        # self.ds.add(self.diagram)
+
+    def get_cim_class(self, gis_class):
+        matched_mapping = pydash.collections.find(self.mapping, lambda mapping: mapping["gisClass"] == gis_class)
+        if matched_mapping is not None:
+            return matched_mapping["cimClass"]
 
     def add_diagram(self):
-        diagram = cim.Diagram(mrid='diag', diagram_style=cim.DiagramStyle.GEOGRAPHIC)
-        # self.ds.add(diagram)
+        diagram = cim.Diagram(diagram_style=cim.DiagramStyle.GEOGRAPHIC)
+        self.ds.add(diagram)
         return diagram
 
     def add_location(self, row):
@@ -59,23 +80,37 @@ class Network:
             self.ns.add(e)
         return voltages
 
-    def add_equipments(self):
+    def create_equipment(self, row, loc):
+        class_name = self.get_cim_class(row['class'])
+        if class_name is not None:
+            logger.info("Creating CIM Class: " + class_name)
+            class_ = getattr(cim, class_name)
+            eq = class_()
+            eq.name = row["id"]
+            eq.location = loc
+            logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
+                                                                          self.voltages.get('UNKNOWN')).__str__())
+            logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
+        else:
+            logger.error("GIS Class: " + row['class'] + ", is not mapped to any Evolve Profile class")
+            eq = None
+        return eq
+
+    def create_network(self):
         for index, row in self.df.iterrows():
             loc = self.add_location(row)
-            if row['class'] == 'cable':
-                acls = cim.AcLineSegment(name=row["id"], description=row["name"], length=row["length"], location=loc)
-                logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
-                                                                              self.voltages.get('UNKNOWN')).__str__())
-                logger.info('Creating ACLS: ' + acls.mrid.__str__())
-                self.ns.add(acls)
-            if row['class'] == 'transformer':
-                tx = PowerTransformer(name=row["id"], description=row["name"], location=loc)
-                logger.info('Creating PowerTranformer: ' + tx.mrid.__str__())
-                self.ns.add(tx)
-                do = cim.DiagramObject(diagram=self.diagram, identified_object_mrid=tx.mrid,
-                                       style=cim.DiagramObjectStyle.DIST_TRANSFORMER)
-                self.diagram.add_object(do)
-                self.ds.add(do)
+            eq = self.create_equipment(row, loc)
+            if eq is not None:
+                self.ns.add(eq)
+            else:
+                logger.error("Equipment not mapped to a Evolve Profile class: " + row["id"])
+                # TODO: Support creation of DiagramObjects and add to a Diagram Service such that the can be visualized in the Network Map
+                # The cimbend libary is generating a error with self.diagram.add_object(do)
+                # do = cim.DiagramObject(diagram=self.diagram, identified_object_mrid=tx.mrid,
+                #                       style=cim.DiagramObjectStyle.DIST_TRANSFORMER)
+                # self.diagram.add_object(do)
+                # self.ds.add(do)
+        return self.ns
 
 
 async def main():
@@ -106,14 +141,13 @@ async def main():
         client_id = args.client_id
 
     # Creates a Network
-    feeder = Network()
-    services = feeder.ns, feeder.ds
+    network = Network().create_network()
 
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
         # Send the network to the postbox instance.
-        res = await conn.send(services)
+        res = await conn.send([network])
 
 
 if __name__ == "__main__":
