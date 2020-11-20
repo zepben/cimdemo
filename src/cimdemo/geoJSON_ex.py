@@ -8,19 +8,10 @@ import logging
 import asyncio
 import argparse
 import pydash
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
-
 import json
 
-# Opening JSON file
-file = open('nodes-config_ee.json', "r")
-# returns JSON object as
-# a dictionary
-config_dict = json.loads(file.read())
-print(config_dict["mappings"])
-
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def get_path(self):
     root = Tk()
@@ -72,9 +63,9 @@ class Network:
         return loc
 
     def add_base_voltages(self):
-        voltages = {'Service': cim.BaseVoltage(nominal_voltage=11000, name='11kV'),
-                    'LV': cim.BaseVoltage(nominal_voltage=440, name='440V'),
-                    '11KV': cim.BaseVoltage(nominal_voltage=440, name='440V'),
+        voltages = {'Service': cim.BaseVoltage(nominal_voltage=415, name='415V'),
+                    'LV': cim.BaseVoltage(nominal_voltage=415, name='415V'),
+                    '11kV': cim.BaseVoltage(nominal_voltage=11000, name='11kV'),
                     'UNKNOWN': cim.BaseVoltage(name='UNKNOWN')}
         for e in voltages.values():
             self.ns.add(e)
@@ -87,6 +78,7 @@ class Network:
             class_ = getattr(cim, class_name)
             eq = class_()
             eq.name = row["id"]
+            eq.base_voltage = self.voltages.get(row['operating voltage'])
             eq.location = loc
             logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
                                                                           self.voltages.get('UNKNOWN')).__str__())
@@ -139,10 +131,8 @@ async def main():
             cert = f.read()
         client_secret = args.client_secret
         client_id = args.client_id
-
     # Creates a Network
     network = Network().create_network()
-
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:

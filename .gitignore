@@ -6,7 +6,10 @@ __pycache__/
 *.iml
 # C extensions
 *.so
-
+# .log
+*.log
+# Config json
+*.json
 # Distribution / packaging
 .Python
 build/
