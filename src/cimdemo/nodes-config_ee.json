@@ -1,6 +1,21 @@
 {
   "mappings" : [
     {
+      "gisClass" : "busbar",
+      "cimClass" :  "AcLineSegment",
+      "style" : ""
+    },
+    {
+      "gisClass" : "geo_schematic_cable",
+      "cimClass" :  "Junction",
+      "style" : ""
+    },
+    {
+      "gisClass" : "simulated",
+      "cimClass" :  "Junction",
+      "style" : ""
+    },
+    {
       "gisClass" : "cable",
       "cimClass" :  "AcLineSegment",
       "style" : ""

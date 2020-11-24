@@ -13,6 +13,7 @@ import json
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+
 def get_path(self):
     root = Tk()
     root.filename = filedialog.askopenfilename(initialdir="F:\\Data\\EssentialEnergy\\geojson", title="Select file",
@@ -27,6 +28,13 @@ def read_mapping(path):
     return json.loads(file.read())["mappings"]
 
 
+def read_json_file(path):
+    # Opening JSON file
+    file = open(path, "r")
+    # returns JSON object as a dictionary
+    return json.loads(file.read())
+
+
 def add_list_to_net(l, net):
     return net
 
@@ -36,6 +44,7 @@ class Network:
     def __init__(self):
         # self.path = get_path()
         self.path = "F:\\Data\\EssentialEnergy\\geojson\\GOG3B2.geojson"
+        self.geojson_file = read_json_file(self.path)
         self.mapping = read_mapping('nodes-config_ee.json')
         self.df = gp.read_file(self.path)
         self.ns = cim.NetworkService()
@@ -77,7 +86,8 @@ class Network:
             logger.info("Creating CIM Class: " + class_name)
             class_ = getattr(cim, class_name)
             eq = class_()
-            eq.name = row["id"]
+            eq.mrid = row["id"]
+            eq.name = row["name"]
             eq.base_voltage = self.voltages.get(row['operating voltage'])
             eq.location = loc
             logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
@@ -88,7 +98,7 @@ class Network:
             eq = None
         return eq
 
-    def create_network(self):
+    def create_net(self):
         for index, row in self.df.iterrows():
             loc = self.add_location(row)
             eq = self.create_equipment(row, loc)
@@ -102,7 +112,16 @@ class Network:
                 #                       style=cim.DiagramObjectStyle.DIST_TRANSFORMER)
                 # self.diagram.add_object(do)
                 # self.ds.add(do)
+        self.connect_equipment()
         return self.ns
+
+    def connect_equipment(self):
+        for index, row in self.df.iterrows():
+            if row['fromNode'] is not None:
+                logger.info("Connecting: " + self.ns.get(mrid=row['id']).__str__() + " to " + self.ns.get(mrid=row['fromNode']).__str__())
+                logger.info("Connecting: " + row['id'] + " to " + self.ns.get(mrid=row['toNode']).__str__())
+
+
 
 
 async def main():
@@ -132,7 +151,8 @@ async def main():
         client_secret = args.client_secret
         client_id = args.client_id
     # Creates a Network
-    network = Network().create_network()
+    network = Network().create_net()
+
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
