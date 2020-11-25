@@ -1,7 +1,6 @@
 import zepben.cimbend as cim
 from zepben.cimbend.streaming.connect import connect_async
 import geopandas as gp
-from zepben.cimbend import PowerTransformer
 from tkinter import filedialog
 from tkinter import *
 import logging
@@ -14,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-def get_path(self):
+def get_path():
     root = Tk()
     root.filename = filedialog.askopenfilename(initialdir="F:\\Data\\EssentialEnergy\\geojson", title="Select file",
                                                filetypes=(("jpeg files", "*.geojson"), ("all files", "*.*")))
@@ -42,14 +41,14 @@ def add_list_to_net(l, net):
 class Network:
 
     def __init__(self):
-        # self.path = get_path()
+        #self.path = get_path()
         self.path = "F:\\Data\\EssentialEnergy\\geojson\\GOG3B2.geojson"
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_mapping('nodes-config_ee.json')
-        self.df = gp.read_file(self.path)
+        self.gdf = gp.read_file(self.path)
         self.ns = cim.NetworkService()
         self.ds = cim.DiagramService()
-        self.diagram = self.add_diagram()
+
         self.voltages = self.add_base_voltages()
 
     def get_cim_class(self, gis_class):
@@ -86,40 +85,53 @@ class Network:
             logger.info("Creating CIM Class: " + class_name)
             class_ = getattr(cim, class_name)
             eq = class_()
+            logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
+                                                                          self.voltages.get('UNKNOWN')).__str__())
+            logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
             eq.mrid = row["id"]
             eq.name = row["name"]
             eq.base_voltage = self.voltages.get(row['operating voltage'])
             eq.location = loc
-            logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
-                                                                          self.voltages.get('UNKNOWN')).__str__())
-            logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
         else:
             logger.error("GIS Class: " + row['class'] + ", is not mapped to any Evolve Profile class")
             eq = None
         return eq
 
     def create_net(self):
-        for index, row in self.df.iterrows():
+        for index, row in self.gdf.iterrows():
             loc = self.add_location(row)
             eq = self.create_equipment(row, loc)
             if eq is not None:
                 self.ns.add(eq)
             else:
                 logger.error("Equipment not mapped to a Evolve Profile class: " + row["id"])
-                # TODO: Support creation of DiagramObjects and add to a Diagram Service such that the can be visualized in the Network Map
-                # The cimbend libary is generating a error with self.diagram.add_object(do)
-                # do = cim.DiagramObject(diagram=self.diagram, identified_object_mrid=tx.mrid,
-                #                       style=cim.DiagramObjectStyle.DIST_TRANSFORMER)
-                # self.diagram.add_object(do)
-                # self.ds.add(do)
+
         self.connect_equipment()
         return self.ns
 
     def connect_equipment(self):
-        for index, row in self.df.iterrows():
+        gdf_b = self.gdf[self.gdf['geometry'].apply(lambda x: x.type == 'LineString')]
+        for index, row in gdf_b.iterrows():
             if row['fromNode'] is not None:
-                logger.info("Connecting: " + self.ns.get(mrid=row['id']).__str__() + " to " + self.ns.get(mrid=row['fromNode']).__str__())
+                logger.info("Connecting: " + self.ns.get(mrid=row['id']).__str__() + " to " + self.ns.get(mrid=row["fromNode"]).__str__())
                 logger.info("Connecting: " + row['id'] + " to " + self.ns.get(mrid=row['toNode']).__str__())
+                eq0 = self.ns.get(mrid=row['id'])
+                t01 = cim.Terminal(conducting_equipment=eq0)
+                t02 = cim.Terminal(conducting_equipment=eq0)
+                eq0.add_terminal(t01)
+                eq0.add_terminal(t02)
+                eq1 = self.ns.get(mrid=row["fromNode"])
+                t11 = cim.Terminal(conducting_equipment=eq1)
+                eq1.add_terminal(t11)
+                eq2 = self.ns.get(mrid=row["toNode"])
+                t21 = cim.Terminal(conducting_equipment=eq2)
+                eq2.add_terminal(t21)
+                self.ns.add(t01)
+                self.ns.add(t11)
+                self.ns.add(t02)
+                self.ns.add(t21)
+                self.ns.connect_terminals(t01,t11)
+                self.ns.connect_terminals(t02,t21)
 
 
 
