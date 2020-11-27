@@ -1,3 +1,4 @@
+# This example illustates how to ingest and send to the cimcap server a network from a .geojon file.
 import zepben.cimbend as cim
 from zepben.cimbend.streaming.connect import connect_async
 import geopandas as gp
@@ -8,6 +9,7 @@ import asyncio
 import argparse
 import pydash
 import json
+import os
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -45,6 +47,7 @@ class Network:
         self.path = "F:\\Data\\EssentialEnergy\\geojson\\GOG3B2.geojson"
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_mapping('nodes-config_ee.json')
+        self.feeder_name = os.path.basename(self.path)
         self.gdf = gp.read_file(self.path)
         self.ns = cim.NetworkService()
         self.ds = cim.DiagramService()
@@ -97,15 +100,16 @@ class Network:
             eq = None
         return eq
 
-    def create_net(self):
+    def add_feeder(self):
+        fd = cim.Feeder(name=self.feeder_name)
         for index, row in self.gdf.iterrows():
             loc = self.add_location(row)
             eq = self.create_equipment(row, loc)
             if eq is not None:
                 self.ns.add(eq)
+                fd.add_equipment(eq)
             else:
                 logger.error("Equipment not mapped to a Evolve Profile class: " + row["id"])
-
         self.connect_equipment()
         return self.ns
 
@@ -163,7 +167,7 @@ async def main():
         client_secret = args.client_secret
         client_id = args.client_id
     # Creates a Network
-    network = Network().create_net()
+    network = Network().add_feeder()
 
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
