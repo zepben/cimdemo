@@ -101,16 +101,17 @@ class Network:
         return eq
 
     def add_feeder(self):
-        fd = cim.Feeder(name=self.feeder_name)
+        fdr = cim.Feeder(name=self.feeder_name)
         for index, row in self.gdf.iterrows():
             loc = self.add_location(row)
             eq = self.create_equipment(row, loc)
             if eq is not None:
                 self.ns.add(eq)
-                fd.add_equipment(eq)
+                fdr.add_equipment(eq)
             else:
                 logger.error("Equipment not mapped to a Evolve Profile class: " + row["id"])
         self.connect_equipment()
+        self.ns.add(fdr)
         return self.ns
 
     def connect_equipment(self):
