@@ -8,8 +8,6 @@ __pycache__/
 *.so
 # .log
 *.log
-# Config json
-*.json
 # Distribution / packaging
 .Python
 build/

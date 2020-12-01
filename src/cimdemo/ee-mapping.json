@@ -1,0 +1,114 @@
+{
+  "busbar": {
+    "cimClass": "AcLineSegment",
+    "style": ""
+  },
+  "geo_schematic_cable": {
+    "cimClass": "Junction",
+    "style": ""
+  },
+  "simulated": {
+    "cimClass": "Junction",
+    "style": ""
+  },
+  "cable": {
+    "cimClass": "AcLineSegment",
+    "style": ""
+  },
+  "zs_power_transformer": {
+    "cimClass": "PowerTransformer",
+    "style": "ZONE_TRANSFORMER"
+  },
+  "zs_switch": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "tr_feeder": {
+    "cimClass": "Breaker",
+    "style": "CB"
+  },
+  "zs_circuit_breaker": {
+    "cimClass": "Breaker",
+    "style": "CB"
+  },
+  "reactor_site": {
+    "cimClass": "LinearShuntCompensator",
+    "style": "SHUNT_COMPENSATOR"
+  },
+  "sectionaliser_site": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "air_break_switch": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "bond": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "cubicle": {
+    "cimClass": "Junction",
+    "style": "JUNCTION"
+  },
+  "cubicle_switch": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "disconnecting_link": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "fuse": {
+    "cimClass": "Fuse",
+    "style": "FUSE"
+  },
+  "hv_feeder": {
+    "cimClass": "Breaker",
+    "style": "FEEDER_CB"
+  },
+  "load_break_switch_site": {
+    "cimClass": "Disconnector",
+    "style": "SWITCH"
+  },
+  "node": {
+    "cimClass": "Junction",
+    "style": "JUNCTION"
+  },
+  "connector": {
+    "cimClass": "Junction",
+    "style": "JUNCTION"
+  },
+  "recloser_site": {
+    "cimClass": "Recloser",
+    "style": "RECLOSER"
+  },
+  "regulator_site": {
+    "cimClass": "PowerTransformer",
+    "style": "NON_REVERSIBLE_REGULATOR"
+  },
+  "service_point": {
+    "cimClass": "EnergyConsumer",
+    "style": "USAGE_POINT"
+  },
+  "substation_site": {
+    "cimClass": "PowerTransformer",
+    "style": "DIST_TRANSFORMER"
+  },
+  "transformer": {
+    "cimClass": "PowerTransformer",
+    "style": "JUNCTION"
+  },
+  "dist_transformer": {
+    "cimClass": "PowerTransformer",
+    "style": "DIST_TRANSFORMER"
+  },
+  "feeder_cb": {
+    "cimClass": "Breaker",
+    "style": "FEEDER_CB"
+  },
+  "iso_transformer": {
+    "cimClass": "PowerTransformer",
+    "style": "ISO_TRANSFORMER"
+  }
+}
