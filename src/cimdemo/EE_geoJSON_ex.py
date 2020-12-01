@@ -1,9 +1,11 @@
-# This example illustates how to ingest and send to the cimcap server a network from a .geojon file.
+# This example illustrates how to ingest and send to the cimcap server a network from a .geojon file.
+# It requires a ee-mapping.json file on the same directory of teh EE_geoJSON_ex.py file
 import zepben.cimbend as cim
 from zepben.cimbend.streaming.connect import connect_async
 import geopandas as gp
 from tkinter import filedialog
 from tkinter import *
+from pathlib import Path
 import logging
 import asyncio
 import argparse
@@ -17,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def get_path():
     root = Tk()
-    root.filename = filedialog.askopenfilename(initialdir="F:\\Data\\EssentialEnergy\\geojson", title="Select file",
+    root.filename = filedialog.askopenfilename(initialdir=Path.home(), title="Select file",
                                                filetypes=(("jpeg files", "*.geojson"), ("all files", "*.*")))
     return root.filename
 
@@ -31,9 +33,8 @@ def read_mapping(path):
 
 def read_json_file(path):
     # Opening JSON file
-    file = open(path, "r")
-    # returns JSON object as a dictionary
-    return json.loads(file.read())
+    with open(path, "r") as f:
+        return json.loads(f.read())
 
 
 def add_list_to_net(l, net):
@@ -43,10 +44,9 @@ def add_list_to_net(l, net):
 class Network:
 
     def __init__(self):
-        #self.path = get_path()
-        self.path = "F:\\Data\\EssentialEnergy\\geojson\\GOG3B2.geojson"
+        self.path = get_path()
         self.geojson_file = read_json_file(self.path)
-        self.mapping = read_mapping('nodes-config_ee.json')
+        self.mapping = read_json_file('ee-mapping.json')
         self.feeder_name = os.path.basename(self.path)
         self.gdf = gp.read_file(self.path)
         self.ns = cim.NetworkService()
@@ -55,9 +55,10 @@ class Network:
         self.voltages = self.add_base_voltages()
 
     def get_cim_class(self, gis_class):
-        matched_mapping = pydash.collections.find(self.mapping, lambda mapping: mapping["gisClass"] == gis_class)
-        if matched_mapping is not None:
-            return matched_mapping["cimClass"]
+        if self.mapping.get(gis_class):
+            return self.mapping[gis_class]["cimClass"]
+        else:
+            return None
 
     def add_diagram(self):
         diagram = cim.Diagram(diagram_style=cim.DiagramStyle.GEOGRAPHIC)
@@ -74,13 +75,10 @@ class Network:
         return loc
 
     def add_base_voltages(self):
-        voltages = {'Service': cim.BaseVoltage(nominal_voltage=415, name='415V'),
-                    'LV': cim.BaseVoltage(nominal_voltage=415, name='415V'),
-                    '11kV': cim.BaseVoltage(nominal_voltage=11000, name='11kV'),
-                    'UNKNOWN': cim.BaseVoltage(name='UNKNOWN')}
-        for e in voltages.values():
-            self.ns.add(e)
-        return voltages
+        self.ns.add(cim.BaseVoltage(mrid='LV', nominal_voltage=415, name='415V'))
+        self.ns.add(cim.BaseVoltage(mrid='Service', nominal_voltage=415, name='415V'))
+        self.ns.add(cim.BaseVoltage(mrid='11kV', nominal_voltage=11000, name='11kV'))
+        self.ns.add(cim.BaseVoltage(mrid='UNKNOWN', nominal_voltage=415, name='415V'))
 
     def create_equipment(self, row, loc):
         class_name = self.get_cim_class(row['class'])
@@ -88,16 +86,18 @@ class Network:
             logger.info("Creating CIM Class: " + class_name)
             class_ = getattr(cim, class_name)
             eq = class_()
-            logger.info('Mapping Operating Voltage: ' + self.voltages.get(row['operating voltage'],
-                                                                          self.voltages.get('UNKNOWN')).__str__())
             logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
             eq.mrid = row["id"]
             eq.name = row["name"]
-            eq.base_voltage = self.voltages.get(row['operating voltage'])
             eq.location = loc
+            if row['operating voltage'] is not None:
+                logger.info('Assigning BaseVoltage: ' + row['operating voltage'].__str__())
+                eq.base_voltage = self.ns.get(row['operating voltage'])
+            else:
+                logger.info('operating_voltage = None. Assigning BaseVoltage: ' + 'UNKNOWN')
+                eq.base_voltage = self.ns.get('UNKNOWN')
         else:
-            logger.error("GIS Class: " + row['class'] + ", is not mapped to any Evolve Profile class")
-            eq = None
+            raise Exception("GIS Class: " + row['class'] + ", is not mapped to any Evolve Profile class")
         return eq
 
     def add_feeder(self):
@@ -118,7 +118,8 @@ class Network:
         gdf_b = self.gdf[self.gdf['geometry'].apply(lambda x: x.type == 'LineString')]
         for index, row in gdf_b.iterrows():
             if row['fromNode'] is not None:
-                logger.info("Connecting: " + self.ns.get(mrid=row['id']).__str__() + " to " + self.ns.get(mrid=row["fromNode"]).__str__())
+                logger.info("Connecting: " + self.ns.get(mrid=row['id']).__str__() + " to " + self.ns.get(
+                    mrid=row["fromNode"]).__str__())
                 logger.info("Connecting: " + row['id'] + " to " + self.ns.get(mrid=row['toNode']).__str__())
                 eq0 = self.ns.get(mrid=row['id'])
                 t01 = cim.Terminal(conducting_equipment=eq0)
@@ -135,10 +136,8 @@ class Network:
                 self.ns.add(t11)
                 self.ns.add(t02)
                 self.ns.add(t21)
-                self.ns.connect_terminals(t01,t11)
-                self.ns.connect_terminals(t02,t21)
-
-
+                self.ns.connect_terminals(t01, t11)
+                self.ns.connect_terminals(t02, t21)
 
 
 async def main():
