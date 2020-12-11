@@ -1,0 +1,23 @@
+{
+  "class": {
+    "evolve": "class",
+    "essential": "class"
+  },
+    "mRID": {
+      "evolve": "GLOBALID",
+      "essential": "GLOBALID"
+
+    },
+  "baseVoltage": {
+    "evolve": "baseVoltage",
+    "essential": "operating voltage"
+  },
+  "fromEq": {
+    "evolve": "fromEq",
+    "essential": "fromNode"
+  },
+  "toEq": {
+    "evolve": "toEq",
+    "essential": "toNode"
+  }
+}

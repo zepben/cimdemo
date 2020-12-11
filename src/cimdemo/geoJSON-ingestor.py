@@ -1,6 +1,6 @@
 # This example illustrates how to ingest and send to the cimcap server a network from a .geojon file.
 # It requires a ee-mapping.json file on the same directory of teh EE_geoJSON_ex.py file
-import zepben.evolve as cim
+import zepben.evolve as ev
 from zepben.evolve.streaming import connect_async
 import geopandas as gp
 from tkinter import filedialog
@@ -24,13 +24,6 @@ def get_path():
     return root.filename
 
 
-def read_mapping(path):
-    # Opening JSON file
-    file = open(path, "r")
-    # returns JSON object as a dictionary
-    return json.loads(file.read())["mappings"]
-
-
 def read_json_file(path):
     # Opening JSON file
     with open(path, "r") as f:
@@ -43,16 +36,21 @@ def add_list_to_net(l, net):
 
 class Network:
 
-    def __init__(self):
+    def __init__(self, namespace='evolve'):
+        self.namespace = namespace
         self.path = get_path()
         self.geojson_file = read_json_file(self.path)
-        self.mapping = read_json_file('ee-mapping.json')
+        self.mapping = read_json_file('cim-mapping.json')
+        self.config_file = read_json_file('geojson-config.json')
+        self.class_field_name = self.get_field_name('class')
+        self.bv_field_name = self.get_field_name('baseVoltage')
+        self.from_field_name = self.get_field_name('fromEq')
+        self.to_field_name = self.get_field_name('toEq')
         self.feeder_name = os.path.basename(self.path)
         self.gdf = gp.read_file(self.path)
-        self.ns = cim.NetworkService()
-        self.ds = cim.DiagramService()
-
-        self.voltages = self.add_base_voltages()
+        self.ns = ev.NetworkService()
+        self.ds = ev.DiagramService()
+        self.add_base_voltages()
 
     def get_cim_class(self, gis_class):
         if self.mapping.get(gis_class):
@@ -60,48 +58,52 @@ class Network:
         else:
             return None
 
+    def get_field_name(self, field):
+        if self.config_file.get(field):
+            logger.info("Reading field name: " + self.config_file[field][self.namespace])
+            return self.config_file[field][self.namespace]
+
     def add_diagram(self):
-        diagram = cim.Diagram(diagram_style=cim.DiagramStyle.GEOGRAPHIC)
+        diagram = ev.Diagram(diagram_style=ev.DiagramStyle.GEOGRAPHIC)
         self.ds.add(diagram)
         return diagram
 
     def add_location(self, row):
-        loc = cim.Location()
+        loc = ev.Location()
         for coord in row["geometry"].coords:
             logger.info("Creating coordinates: " + coord.__str__())
-            loc.add_point(cim.PositionPoint(coord[0], coord[1]))
+            loc.add_point(ev.PositionPoint(coord[0], coord[1]))
             logger.info('Add Location to Network Service')
             self.ns.add(loc)
         return loc
 
     def add_base_voltages(self):
-        self.ns.add(cim.BaseVoltage(mrid='LV', nominal_voltage=415, name='415V'))
-        self.ns.add(cim.BaseVoltage(mrid='Service', nominal_voltage=415, name='415V'))
-        self.ns.add(cim.BaseVoltage(mrid='11kV', nominal_voltage=11000, name='11kV'))
-        self.ns.add(cim.BaseVoltage(mrid='UNKNOWN', nominal_voltage=415, name='415V'))
+        self.ns.add(ev.BaseVoltage(mrid='415V', nominal_voltage=0.415, name='415V'))
+        self.ns.add(ev.BaseVoltage(mrid='11kV', nominal_voltage=11, name='11kV'))
+        self.ns.add(ev.BaseVoltage(mrid='UNKNOWN', nominal_voltage=0, name='UNKNOWN'))
 
     def create_equipment(self, row, loc):
-        class_name = self.get_cim_class(row['class'])
+        class_name = self.get_cim_class(row[self.class_field_name])
         if class_name is not None:
             logger.info("Creating CIM Class: " + class_name)
-            class_ = getattr(cim, class_name)
+            class_ = getattr(ev, class_name)
             eq = class_()
             logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
-            eq.mrid = row["id"]
-            eq.name = row["name"]
+            eq.mrid = row["GlobalID"]
+            eq.name = row["OBJECTID"]
             eq.location = loc
-            if row['operating voltage'] is not None:
-                logger.info('Assigning BaseVoltage: ' + row['operating voltage'].__str__())
-                eq.base_voltage = self.ns.get(row['operating voltage'])
+            if row['baseVoltage'] is not None:
+                logger.info('Assigning BaseVoltage: ' + row['baseVoltage'].__str__())
+                eq.base_voltage = self.ns.get(row['baseVoltage'])
             else:
-                logger.info('operating_voltage = None. Assigning BaseVoltage: ' + 'UNKNOWN')
+                logger.info('baseVoltage = None. Assigning BaseVoltage: ' + 'UNKNOWN')
                 eq.base_voltage = self.ns.get('UNKNOWN')
         else:
             raise Exception("GIS Class: " + row['class'] + ", is not mapped to any Evolve Profile class")
         return eq
 
     def add_feeder(self):
-        fdr = cim.Feeder(name=self.feeder_name)
+        fdr = ev.Feeder(name=self.feeder_name)
         for index, row in self.gdf.iterrows():
             loc = self.add_location(row)
             eq = self.create_equipment(row, loc)
@@ -122,15 +124,15 @@ class Network:
                     mrid=row["fromNode"]).__str__())
                 logger.info("Connecting: " + row['id'] + " to " + self.ns.get(mrid=row['toNode']).__str__())
                 eq0 = self.ns.get(mrid=row['id'])
-                t01 = cim.Terminal(conducting_equipment=eq0)
-                t02 = cim.Terminal(conducting_equipment=eq0)
+                t01 = ev.Terminal(conducting_equipment=eq0)
+                t02 = ev.Terminal(conducting_equipment=eq0)
                 eq0.add_terminal(t01)
                 eq0.add_terminal(t02)
                 eq1 = self.ns.get(mrid=row["fromNode"])
-                t11 = cim.Terminal(conducting_equipment=eq1)
+                t11 = ev.Terminal(conducting_equipment=eq1)
                 eq1.add_terminal(t11)
                 eq2 = self.ns.get(mrid=row["toNode"])
-                t21 = cim.Terminal(conducting_equipment=eq2)
+                t21 = ev.Terminal(conducting_equipment=eq2)
                 eq2.add_terminal(t21)
                 self.ns.add(t01)
                 self.ns.add(t11)

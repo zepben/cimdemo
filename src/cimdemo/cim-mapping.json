@@ -1,0 +1,18 @@
+{
+  "AcLineSegment": {
+    "cimClass": "AcLineSegment",
+    "style": ""
+  },
+  "Junction": {
+    "cimClass": "Junction",
+    "style": ""
+  },
+  "EnergyConsumer": {
+    "cimClass": "EnergyConsumer",
+    "style": ""
+  },
+  "PowerTransformer": {
+    "cimClass": "PowerTransformer",
+    "style": ""
+  }
+}
