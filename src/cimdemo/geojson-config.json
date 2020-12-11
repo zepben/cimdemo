@@ -3,21 +3,24 @@
     "evolve": "class",
     "essential": "class"
   },
-    "mRID": {
-      "evolve": "GLOBALID",
-      "essential": "GLOBALID"
-
+    "mrid": {
+      "evolve": "GlobalID",
+      "essential": "id"
+    },
+    "name": {
+      "evolve": "OBJECTID",
+      "essential": "name"
     },
   "baseVoltage": {
     "evolve": "baseVoltage",
     "essential": "operating voltage"
   },
   "fromEq": {
-    "evolve": "fromEq",
+    "evolve": "FromEq",
     "essential": "fromNode"
   },
   "toEq": {
-    "evolve": "toEq",
+    "evolve": "ToEq",
     "essential": "toNode"
   }
 }

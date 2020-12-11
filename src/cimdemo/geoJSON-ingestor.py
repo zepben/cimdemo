@@ -30,10 +30,6 @@ def read_json_file(path):
         return json.loads(f.read())
 
 
-def add_list_to_net(l, net):
-    return net
-
-
 class Network:
 
     def __init__(self, namespace='evolve'):
@@ -42,10 +38,6 @@ class Network:
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_json_file('cim-mapping.json')
         self.config_file = read_json_file('geojson-config.json')
-        self.class_field_name = self.get_field_name('class')
-        self.bv_field_name = self.get_field_name('baseVoltage')
-        self.from_field_name = self.get_field_name('fromEq')
-        self.to_field_name = self.get_field_name('toEq')
         self.feeder_name = os.path.basename(self.path)
         self.gdf = gp.read_file(self.path)
         self.ns = ev.NetworkService()
@@ -60,7 +52,6 @@ class Network:
 
     def get_field_name(self, field):
         if self.config_file.get(field):
-            logger.info("Reading field name: " + self.config_file[field][self.namespace])
             return self.config_file[field][self.namespace]
 
     def add_diagram(self):
@@ -83,23 +74,23 @@ class Network:
         self.ns.add(ev.BaseVoltage(mrid='UNKNOWN', nominal_voltage=0, name='UNKNOWN'))
 
     def create_equipment(self, row, loc):
-        class_name = self.get_cim_class(row[self.class_field_name])
+        class_name = self.get_cim_class(row[self.get_field_name('class')])
         if class_name is not None:
             logger.info("Creating CIM Class: " + class_name)
             class_ = getattr(ev, class_name)
             eq = class_()
-            logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
-            eq.mrid = row["GlobalID"]
-            eq.name = row["OBJECTID"]
+            logger.info('Creating Equipment:' + ", mRID: " + row[self.get_field_name("mrid")].__str__())
+            eq.mrid = row[self.get_field_name("mrid")]
+            eq.name = row[self.get_field_name("name")]
             eq.location = loc
-            if row['baseVoltage'] is not None:
+            if row[self.get_field_name('baseVoltage')] is not None:
                 logger.info('Assigning BaseVoltage: ' + row['baseVoltage'].__str__())
-                eq.base_voltage = self.ns.get(row['baseVoltage'])
+                eq.base_voltage = self.ns.get(row[self.get_field_name('baseVoltage')])
             else:
                 logger.info('baseVoltage = None. Assigning BaseVoltage: ' + 'UNKNOWN')
                 eq.base_voltage = self.ns.get('UNKNOWN')
         else:
-            raise Exception("GIS Class: " + row['class'] + ", is not mapped to any Evolve Profile class")
+            raise Exception("GIS Class: " + row[self.get_field_name('class')] + ", is not mapped to any Evolve Profile class")
         return eq
 
     def add_feeder(self):
@@ -111,7 +102,7 @@ class Network:
                 self.ns.add(eq)
                 fdr.add_equipment(eq)
             else:
-                logger.error("Equipment not mapped to a Evolve Profile class: " + row["id"])
+                logger.error("Equipment not mapped to a Evolve Profile class: " + row[self.get_field_name('mrid')])
         self.connect_equipment()
         self.ns.add(fdr)
         return self.ns
@@ -119,19 +110,18 @@ class Network:
     def connect_equipment(self):
         gdf_b = self.gdf[self.gdf['geometry'].apply(lambda x: x.type == 'LineString')]
         for index, row in gdf_b.iterrows():
-            if row['fromNode'] is not None:
-                logger.info("Connecting: " + self.ns.get(mrid=row['id']).__str__() + " to " + self.ns.get(
-                    mrid=row["fromNode"]).__str__())
-                logger.info("Connecting: " + row['id'] + " to " + self.ns.get(mrid=row['toNode']).__str__())
-                eq0 = self.ns.get(mrid=row['id'])
+            if row[self.get_field_name('fromEq')] is not None:
+                logger.info("Connecting: " + row[self.get_field_name('fromEq')].__str__() + " to " + row[self.get_field_name('toEq')].__str__() + ", with acls:"
+                            + row[self.get_field_name('mrid')].__str__())
+                eq0 = self.ns.get(mrid=row[self.get_field_name('mrid')].__str__())
                 t01 = ev.Terminal(conducting_equipment=eq0)
                 t02 = ev.Terminal(conducting_equipment=eq0)
                 eq0.add_terminal(t01)
                 eq0.add_terminal(t02)
-                eq1 = self.ns.get(mrid=row["fromNode"])
+                eq1 = self.ns.get(mrid=row[self.get_field_name('fromEq')])
                 t11 = ev.Terminal(conducting_equipment=eq1)
                 eq1.add_terminal(t11)
-                eq2 = self.ns.get(mrid=row["toNode"])
+                eq2 = self.ns.get(mrid=row[self.get_field_name('toEq')])
                 t21 = ev.Terminal(conducting_equipment=eq2)
                 eq2.add_terminal(t21)
                 self.ns.add(t01)
