@@ -11,7 +11,7 @@ import logging
 from zepben.evolve import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
     EnergyConsumer, PerLengthSequenceImpedance, BaseVoltage, Location, PositionPoint, EnergySourcePhase, \
     PowerTransformerEnd, WindingConnection, PowerTransformer, VectorGroup, PhaseShuntConnectionKind, \
-    EnergyConsumerPhase, RatioTapChanger, NetworkProducerClient, connect_async
+    EnergyConsumerPhase, RatioTapChanger, connect_async, ProducerClient
 from zepben.evolve import PhaseCode, SinglePhaseKind
 
 logger = logging.getLogger(__name__)
@@ -484,7 +484,7 @@ async def main():
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
         # Send the network to the postbox instance.
-        client = NetworkProducerClient(channel=channel)
+        client = ProducerClient(channel=channel)
         res = await client.send([network])
 
         # TODO: Examples of querying EWB
