@@ -8,12 +8,12 @@ import argparse
 import asyncio
 import logging
 
-from zepben.cimbend import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
+from zepben.evolve import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
     EnergyConsumer, PerLengthSequenceImpedance, BaseVoltage, Location, PositionPoint, EnergySourcePhase, \
     PowerTransformerEnd, WindingConnection, PowerTransformer, VectorGroup, PhaseShuntConnectionKind, \
     EnergyConsumerPhase, RatioTapChanger
-from zepben.cimbend import PhaseCode, SinglePhaseKind
-from zepben.cimbend.streaming.connect import connect_async
+from zepben.evolve import PhaseCode, SinglePhaseKind
+from zepben.evolve.streaming import connect_async
 
 logger = logging.getLogger(__name__)
 
