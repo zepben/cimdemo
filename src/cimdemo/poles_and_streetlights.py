@@ -8,8 +8,7 @@ import asyncio
 import argparse
 import logging
 
-from zepben.cimbend import Pole, Streetlight, StreetlightLampKind, NetworkService
-from zepben.cimbend.streaming.connect import connect_async
+from zepben.evolve import Pole, Streetlight, StreetlightLampKind, NetworkService, connect_async, ProducerClient
 
 logger = logging.getLogger(__name__)
 
@@ -73,11 +72,10 @@ async def main():
     network = create_lightpoles()
 
     # Connect to a local postbox instance using credentials if provided.
-    async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address, client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
-        # Send the network to the postbox instance.
-        res = await conn.send([network])
+    async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address, client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
+        client = ProducerClient(channel=channel)
+        res = await client.send([network])
 
-        # TODO: Examples of querying postbox
 
 
 if __name__ == "__main__":

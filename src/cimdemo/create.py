@@ -8,9 +8,8 @@ import argparse
 import asyncio
 import logging
 
-from zepben.cimbend import NetworkService, DiagramService, Breaker, Terminal, AcLineSegment, EnergySource, EnergyConsumer, PerLengthSequenceImpedance, \
-    PhaseCode, EnergyConsumerPhase, SinglePhaseKind, DiagramObject, Diagram, DiagramObjectPoint, DiagramObjectStyle, DiagramStyle
-from zepben.cimbend.streaming.connect import connect_async
+from zepben.evolve import NetworkService, DiagramService, Breaker, Terminal, AcLineSegment, EnergySource, EnergyConsumer, PerLengthSequenceImpedance, \
+    PhaseCode, EnergyConsumerPhase, SinglePhaseKind, DiagramObject, Diagram, DiagramObjectPoint, DiagramObjectStyle, DiagramStyle, connect_async, ProducerClient
 
 logger = logging.getLogger(__name__)
 
@@ -110,10 +109,9 @@ async def main():
     services = create_feeder()
 
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
-                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
-        res = await conn.send(services)
-        # network = await conn.get_whole_network()
-        # print(network['es'])
+                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
+        client = ProducerClient(channel=channel)
+        res = await client.send(services)
 
 
 if __name__ == "__main__":
