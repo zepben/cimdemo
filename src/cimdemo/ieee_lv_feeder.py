@@ -138,7 +138,7 @@ def create_feeder():
 
     # Create the Breaker. It requires a new BaseVoltage of 416V
     # Note Breaker constructor defaults all switch states to CLOSED.
-    bv_416v = BaseVoltage(mrid="416v", nominal_voltage=416, name="0.416kV")
+    bv_416v = BaseVoltage(mrid="416v", nominal_voltage=416, name="0.416V")
     network.add(bv_416v)
 
     # Create a location for the Breaker
@@ -281,13 +281,14 @@ def create_feeder():
     ecp = [EnergyConsumerPhase(mrid="ecp3", phase=SinglePhaseKind.A, p_fixed=800.0, q_fixed=200.0)]
     network.add(ecp[0])
 
-    ec3_loc = Location(mrid="ec3-loc", position_points=[PositionPoint(100.00, 80.80)])
+    ec3_loc = Location(mrid="ec3-loc", position_points=[PositionPoint(149.11048438224535
+                                                                      , -35.27024892463094)])
     network.add(ec3_loc)
 
     energy_consumer3 = EnergyConsumer(mrid="EnergyConsumer3",
                                       p=1000,
                                       q=334.27413609633844,
-                                      name="Load 3",
+                                      name="Load3",
                                       phase_connection=PhaseShuntConnectionKind.Y,
                                       energy_consumer_phases=ecp,
                                       base_voltage=bv_230v,
