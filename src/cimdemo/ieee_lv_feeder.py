@@ -39,7 +39,7 @@ def create_feeder():
     # Geographic coordinates and location details are stored as a Location against any type extending
     # PowerSystemResource.
     energy_source_loc = Location(mrid='es-loc')
-    energy_source_loc.add_point(PositionPoint(100.00, 80.80))
+    energy_source_loc.add_point(PositionPoint(149.10905744704937, -35.2696664208097))
     network.add(energy_source_loc)
 
     # Create the EnergySource, specifying any desired parameters plus passing in our BaseVoltage, EnergySourcePhase's,
@@ -125,7 +125,7 @@ def create_feeder():
 
     # Location
     pt_loc = Location(mrid='pt-loc')
-    pt_loc.add_point(PositionPoint(100.00, 80.80))
+    pt_loc.add_point(PositionPoint(149.10941149863936,35.26964014234307))
     power_transformer.location = pt_loc
     network.add(pt_loc)
 
@@ -143,7 +143,7 @@ def create_feeder():
 
     # Create a location for the Breaker
     breaker_loc = Location(mrid='breaker-loc')
-    breaker_loc.add_point(PositionPoint(100.00, 80.80))
+    breaker_loc.add_point(PositionPoint(149.10967971954085,-35.269618243614396))
     network.add(breaker_loc)
 
     breaker = Breaker(mrid="Breaker", base_voltage=bv_416v, location=breaker_loc)
@@ -169,8 +169,8 @@ def create_feeder():
     # A line typically has two longlats representing each terminal point. Note these must be added in order and
     # correspond to the matching Terminal.
     acls1_loc = Location(mrid="acls1-loc")
-    acls1_loc.add_point(PositionPoint(100.00, 80.80))
-    acls1_loc.add_point(PositionPoint(100.00, 80.80))
+    acls1_loc.add_point(PositionPoint(149.10967971954085, -35.269618243614396))
+    acls1_loc.add_point(PositionPoint(149.11003377113082,-35.27061681962318))
     network.add(acls1_loc)
 
     acls1 = AcLineSegment(mrid="acls1",
@@ -205,9 +205,9 @@ def create_feeder():
     ecp = [EnergyConsumerPhase(mrid='ecp1', phase=SinglePhaseKind.A, p_fixed=800.0, q_fixed=200.0)]
     network.add(ecp[0])
 
-    # Creaote the EnergyConsumer's Location
+    # Create the EnergyConsumer's Location
     ec1_loc = Location(mrid="ec1-loc")
-    ec1_loc.add_point(PositionPoint(100.00, 80.80))
+    ec1_loc.add_point(PositionPoint(149.11037709388472,-35.269758395375725))
     network.add(ec1_loc)
 
     energy_consumer1 = EnergyConsumer(mrid="EnergyConsumer1",
@@ -233,7 +233,7 @@ def create_feeder():
     network.add(esp[0])
 
     es2_loc = Location(mrid="es2-loc")
-    es2_loc.add_point(PositionPoint(100.00, 80.80))
+    es2_loc.add_point(PositionPoint(149.1106238571141,-35.269881027967976))
     network.add(es2_loc)
 
     energy_source_pv = EnergySource(mrid="PV-DG",
@@ -256,7 +256,7 @@ def create_feeder():
     network.add(ecp[0])
 
     ec2_loc = Location(mrid="ec2-loc")
-    ec2_loc.add_point(PositionPoint(100.00, 80.80))
+    ec2_loc.add_point(PositionPoint(149.1108598915074,-35.271930716670994))
     network.add(ec2_loc)
 
     energy_consumer2 = EnergyConsumer(mrid="EnergyConsumer2",
@@ -310,8 +310,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
     """
     # ACLS2
     acls2_loc = Location(mrid="acls2-loc")
-    acls2_loc.add_point(PositionPoint(100.00, 80.80))
-    acls2_loc.add_point(PositionPoint(110.00, 80.80))
+    acls2_loc.add_point(PositionPoint(149.11003377113082, -35.27061681962318))
+    acls2_loc.add_point(PositionPoint(149.11010887298323, -35.2700474576177))
     network.add(acls2_loc)
 
     plsi_2 = PerLengthSequenceImpedance(mrid="2c_16", r=1150, x=88.0, r0=1200, x0=88.0)
@@ -336,8 +336,9 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS3
     acls3_loc = Location(mrid="acls3-loc")
-    acls3_loc.add_point(PositionPoint(100.00, 80.80))
-    acls3_loc.add_point(PositionPoint(100.00, 80.80))
+    acls3_loc.add_point(PositionPoint(149.11010887298323
+                                      , -35.2700474576177))
+    acls3_loc.add_point(PositionPoint(149.11038782272078, -35.269889787431744))
     network.add(acls3_loc)
 
     acls3 = AcLineSegment(mrid="acls3",
@@ -360,8 +361,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS4
     acls4_loc = Location(mrid="acls4-loc")
-    acls4_loc.add_point(PositionPoint(100.00, 80.80))
-    acls4_loc.add_point(PositionPoint(100.00, 80.80))
+    acls4_loc.add_point(PositionPoint(149.11010887298323, -35.2700474576177))
+    acls4_loc.add_point(PositionPoint(149.11048438224535, -35.27024892463094))
     network.add(acls4_loc)
 
     acls4 = AcLineSegment(mrid="acls4",
@@ -383,8 +384,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS5
     acls5_loc = Location(mrid="acls5-loc")
-    acls5_loc.add_point(PositionPoint(100.00, 80.80))
-    acls5_loc.add_point(PositionPoint(100.00, 80.80))
+    acls5_loc.add_point(PositionPoint(149.11003377113082, -35.27061681962318))
+    acls5_loc.add_point(PositionPoint(149.110248347852, -35.27128253012409))
     network.add(acls5_loc)
 
     acls5 = AcLineSegment(mrid="acls5",
@@ -406,8 +407,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS6
     acls6_loc = Location(mrid="acls6-loc")
-    acls6_loc.add_point(PositionPoint(100.00, 80.80))
-    acls6_loc.add_point(PositionPoint(100.00, 80.80))
+    acls6_loc.add_point(PositionPoint(149.110248347852, -35.27128253012409))
+    acls6_loc.add_point(PositionPoint(149.11031272086836, -35.27192195742791))
     network.add(acls6_loc)
 
     acls6 = AcLineSegment(mrid="acls6",
@@ -429,8 +430,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS7
     acls7_loc = Location(mrid="acls7-loc")
-    acls7_loc.add_point(PositionPoint(100.00, 80.80))
-    acls7_loc.add_point(PositionPoint(100.00, 80.80))
+    acls7_loc.add_point(PositionPoint(149.11031272086836, -35.27192195742791))
+    acls7_loc.add_point(PositionPoint(149.1108598915074, -35.271930716670994))
     network.add(acls7_loc)
 
     acls7 = AcLineSegment(mrid="acls7",
