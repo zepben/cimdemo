@@ -11,16 +11,22 @@ import logging
 from zepben.evolve import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
     EnergyConsumer, PerLengthSequenceImpedance, BaseVoltage, Location, PositionPoint, EnergySourcePhase, \
     PowerTransformerEnd, WindingConnection, PowerTransformer, VectorGroup, PhaseShuntConnectionKind, \
-    EnergyConsumerPhase, RatioTapChanger, connect_async, ProducerClient, DiagramObject, DiagramService
+    EnergyConsumerPhase, RatioTapChanger, connect_async, ProducerClient, DiagramObject, DiagramService, Diagram, DiagramObjectStyle, DiagramObjectPoint
 from zepben.evolve import PhaseCode, SinglePhaseKind, Feeder
 
 logger = logging.getLogger(__name__)
 
 
-def create_diagram(net):
+def create_diagram():
     # Create a Diagram. To create a diagram you need to create a DiagramService()
     service = DiagramService()
-    service.add(net)
+    diagram = Diagram()
+    service.add(diagram)
+    pt_do = DiagramObject(diagram=diagram)
+    pt_do.add_point(DiagramObjectPoint(149.10941149863936, 35.26964014234307))
+    pt_do.identified_object_mrid = "PowerTransformer"
+    pt_do.style = DiagramObjectStyle.DIST_TRANSFORMER
+    service.add(pt_do)
     return service
 
 
@@ -492,15 +498,14 @@ async def main():
 
     # Creates a Network
     net = create_network()
-    feeder = Feeder()
-    diagram = create_diagram(feeder)
+    diagram = create_diagram()
 
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
         # Send the network to the postbox instance.
         client = ProducerClient(channel=channel)
-        res = await client.send([diagram])
+        res = await client.send([net, diagram])
 
         # TODO: Examples of querying EWB
 
