@@ -17,10 +17,10 @@ from zepben.evolve import PhaseCode, SinglePhaseKind, Feeder
 logger = logging.getLogger(__name__)
 
 
-def create_diagram(feeder):
+def create_diagram(net):
     # Create a Diagram. To create a diagram you need to create a DiagramService()
     service = DiagramService()
-    service.add(feeder)
+    service.add(net)
     return service
 
 
