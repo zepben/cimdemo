@@ -100,7 +100,7 @@ def create_network():
     # Create the PowerTransformer
     # Note BaseVoltage is not used for the PowerTransformer as it has two separate voltages. rated_u must be populated
     # on both ends.
-    power_transformer = PowerTransformer(mrid="PowerTransformer", vector_group=VectorGroup.DYN11)
+    power_transformer = PowerTransformer(mrid="PowerTransformer", vector_group=VectorGroup.DYN11, name="PowerTransformer")
     delta_pt_end = PowerTransformerEnd(mrid="delta-pt-end", rated_s=800000, rated_u=11000,
                                        connection_kind=WindingConnection.D, power_transformer=power_transformer)
     delta_tap_changer = RatioTapChanger(mrid="rtc1", high_step=4, low_step=1, step=2.0, neutral_step=2, normal_step=2,
@@ -470,7 +470,7 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
 
 async def main():
-    parser = argparse.ArgumentParser(description="Zepben cimbend demo for the IEEE European LV Test feeder")
+    parser = argparse.ArgumentParser(description="Zepben cimbend demo for a basic LV test feeder")
     parser.add_argument('server', help='Host and port of grpc server', metavar="host:port", nargs="?",
                         default="localhost")
     parser.add_argument('--rpc-port', help="The gRPC port for the server", default="50051")
