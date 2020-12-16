@@ -11,14 +11,26 @@ import logging
 from zepben.evolve import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
     EnergyConsumer, PerLengthSequenceImpedance, BaseVoltage, Location, PositionPoint, EnergySourcePhase, \
     PowerTransformerEnd, WindingConnection, PowerTransformer, VectorGroup, PhaseShuntConnectionKind, \
-    EnergyConsumerPhase, RatioTapChanger
-from zepben.evolve import PhaseCode, SinglePhaseKind
-from zepben.evolve.streaming import connect_async
+    EnergyConsumerPhase, RatioTapChanger, connect_async, ProducerClient, DiagramObject, DiagramService, Diagram, DiagramObjectStyle, DiagramObjectPoint
+from zepben.evolve import PhaseCode, SinglePhaseKind, Feeder
 
 logger = logging.getLogger(__name__)
 
 
-def create_feeder():
+def create_diagram():
+    # Create a Diagram. To create a diagram you need to create a DiagramService()
+    service = DiagramService()
+    diagram = Diagram()
+    service.add(diagram)
+    pt_do = DiagramObject(diagram=diagram)
+    pt_do.add_point(DiagramObjectPoint(149.10941149863936, 35.26964014234307))
+    pt_do.identified_object_mrid = "PowerTransformer"
+    pt_do.style = DiagramObjectStyle.DIST_TRANSFORMER
+    service.add(pt_do)
+    return service
+
+
+def create_network():
     """
     Creates a small feeder based on https://bitbucket.org/zepben/cimdemo/src/master/lv_simple_net.png.
     :return: A NetworkService representing the feeder.
@@ -40,7 +52,7 @@ def create_feeder():
     # Geographic coordinates and location details are stored as a Location against any type extending
     # PowerSystemResource.
     energy_source_loc = Location(mrid='es-loc')
-    energy_source_loc.add_point(PositionPoint(100.00, 80.80))
+    energy_source_loc.add_point(PositionPoint(149.10905744704937, -35.2696664208097))
     network.add(energy_source_loc)
 
     # Create the EnergySource, specifying any desired parameters plus passing in our BaseVoltage, EnergySourcePhase's,
@@ -88,16 +100,20 @@ def create_feeder():
     # Create the PowerTransformer
     # Note BaseVoltage is not used for the PowerTransformer as it has two separate voltages. rated_u must be populated
     # on both ends.
-    power_transformer = PowerTransformer(mrid="PowerTransformer", vector_group=VectorGroup.DYN11)
-    delta_pt_end = PowerTransformerEnd(mrid="delta-pt-end", rated_s=800000, rated_u=11000, connection_kind=WindingConnection.D, power_transformer=power_transformer)
-    delta_tap_changer = RatioTapChanger(mrid="rtc1", high_step=4, low_step=1, step=2.0, neutral_step=2, normal_step=2, step_voltage_increment=0.25, transformer_end=delta_pt_end)
+    power_transformer = PowerTransformer(mrid="PowerTransformer", vector_group=VectorGroup.DYN11, name="PowerTransformer")
+    delta_pt_end = PowerTransformerEnd(mrid="delta-pt-end", rated_s=800000, rated_u=11000,
+                                       connection_kind=WindingConnection.D, power_transformer=power_transformer)
+    delta_tap_changer = RatioTapChanger(mrid="rtc1", high_step=4, low_step=1, step=2.0, neutral_step=2, normal_step=2,
+                                        step_voltage_increment=0.25, transformer_end=delta_pt_end)
     delta_pt_end.ratio_tap_changer = delta_tap_changer
 
     network.add(delta_tap_changer)
     network.add(delta_pt_end)
 
-    wye_pt_end = PowerTransformerEnd(mrid="wye-pt-end", rated_s=800000, rated_u=416, connection_kind=WindingConnection.Yn, power_transformer=power_transformer)
-    wye_tap_changer = RatioTapChanger(mrid="rtc2", high_step=2, low_step=1, step=2.0, neutral_step=2, normal_step=2, step_voltage_increment=0.5, transformer_end=wye_pt_end)
+    wye_pt_end = PowerTransformerEnd(mrid="wye-pt-end", rated_s=800000, rated_u=416,
+                                     connection_kind=WindingConnection.Yn, power_transformer=power_transformer)
+    wye_tap_changer = RatioTapChanger(mrid="rtc2", high_step=2, low_step=1, step=2.0, neutral_step=2, normal_step=2,
+                                      step_voltage_increment=0.5, transformer_end=wye_pt_end)
     wye_pt_end.ratio_tap_changer = wye_tap_changer
 
     network.add(wye_tap_changer)
@@ -126,7 +142,7 @@ def create_feeder():
 
     # Location
     pt_loc = Location(mrid='pt-loc')
-    pt_loc.add_point(PositionPoint(100.00, 80.80))
+    pt_loc.add_point(PositionPoint(149.10941149863936, 35.26964014234307))
     power_transformer.location = pt_loc
     network.add(pt_loc)
 
@@ -139,12 +155,12 @@ def create_feeder():
 
     # Create the Breaker. It requires a new BaseVoltage of 416V
     # Note Breaker constructor defaults all switch states to CLOSED.
-    bv_416v = BaseVoltage(mrid="416v", nominal_voltage=416, name="0.416kV")
+    bv_416v = BaseVoltage(mrid="416v", nominal_voltage=416, name="0.416V")
     network.add(bv_416v)
 
     # Create a location for the Breaker
     breaker_loc = Location(mrid='breaker-loc')
-    breaker_loc.add_point(PositionPoint(100.00, 80.80))
+    breaker_loc.add_point(PositionPoint(149.10967971954085, -35.269618243614396))
     network.add(breaker_loc)
 
     breaker = Breaker(mrid="Breaker", base_voltage=bv_416v, location=breaker_loc)
@@ -170,8 +186,8 @@ def create_feeder():
     # A line typically has two longlats representing each terminal point. Note these must be added in order and
     # correspond to the matching Terminal.
     acls1_loc = Location(mrid="acls1-loc")
-    acls1_loc.add_point(PositionPoint(100.00, 80.80))
-    acls1_loc.add_point(PositionPoint(100.00, 80.80))
+    acls1_loc.add_point(PositionPoint(149.10967971954085, -35.269618243614396))
+    acls1_loc.add_point(PositionPoint(149.11003377113082, -35.27061681962318))
     network.add(acls1_loc)
 
     acls1 = AcLineSegment(mrid="acls1",
@@ -206,9 +222,9 @@ def create_feeder():
     ecp = [EnergyConsumerPhase(mrid='ecp1', phase=SinglePhaseKind.A, p_fixed=800.0, q_fixed=200.0)]
     network.add(ecp[0])
 
-    # Creaote the EnergyConsumer's Location
+    # Create the EnergyConsumer's Location
     ec1_loc = Location(mrid="ec1-loc")
-    ec1_loc.add_point(PositionPoint(100.00, 80.80))
+    ec1_loc.add_point(PositionPoint(149.11037709388472, -35.269758395375725))
     network.add(ec1_loc)
 
     energy_consumer1 = EnergyConsumer(mrid="EnergyConsumer1",
@@ -234,7 +250,7 @@ def create_feeder():
     network.add(esp[0])
 
     es2_loc = Location(mrid="es2-loc")
-    es2_loc.add_point(PositionPoint(100.00, 80.80))
+    es2_loc.add_point(PositionPoint(149.1106238571141, -35.269881027967976))
     network.add(es2_loc)
 
     energy_source_pv = EnergySource(mrid="PV-DG",
@@ -257,7 +273,7 @@ def create_feeder():
     network.add(ecp[0])
 
     ec2_loc = Location(mrid="ec2-loc")
-    ec2_loc.add_point(PositionPoint(100.00, 80.80))
+    ec2_loc.add_point(PositionPoint(149.1108598915074, -35.271930716670994))
     network.add(ec2_loc)
 
     energy_consumer2 = EnergyConsumer(mrid="EnergyConsumer2",
@@ -282,13 +298,14 @@ def create_feeder():
     ecp = [EnergyConsumerPhase(mrid="ecp3", phase=SinglePhaseKind.A, p_fixed=800.0, q_fixed=200.0)]
     network.add(ecp[0])
 
-    ec3_loc = Location(mrid="ec3-loc", position_points=[PositionPoint(100.00, 80.80)])
+    ec3_loc = Location(mrid="ec3-loc", position_points=[PositionPoint(149.11048438224535
+                                                                      , -35.27024892463094)])
     network.add(ec3_loc)
 
     energy_consumer3 = EnergyConsumer(mrid="EnergyConsumer3",
                                       p=1000,
                                       q=334.27413609633844,
-                                      name="Load 3",
+                                      name="Load3",
                                       phase_connection=PhaseShuntConnectionKind.Y,
                                       energy_consumer_phases=ecp,
                                       base_voltage=bv_230v,
@@ -311,8 +328,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
     """
     # ACLS2
     acls2_loc = Location(mrid="acls2-loc")
-    acls2_loc.add_point(PositionPoint(100.00, 80.80))
-    acls2_loc.add_point(PositionPoint(110.00, 80.80))
+    acls2_loc.add_point(PositionPoint(149.11003377113082, -35.27061681962318))
+    acls2_loc.add_point(PositionPoint(149.11010887298323, -35.2700474576177))
     network.add(acls2_loc)
 
     plsi_2 = PerLengthSequenceImpedance(mrid="2c_16", r=1150, x=88.0, r0=1200, x0=88.0)
@@ -337,8 +354,9 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS3
     acls3_loc = Location(mrid="acls3-loc")
-    acls3_loc.add_point(PositionPoint(100.00, 80.80))
-    acls3_loc.add_point(PositionPoint(100.00, 80.80))
+    acls3_loc.add_point(PositionPoint(149.11010887298323
+                                      , -35.2700474576177))
+    acls3_loc.add_point(PositionPoint(149.11038782272078, -35.269889787431744))
     network.add(acls3_loc)
 
     acls3 = AcLineSegment(mrid="acls3",
@@ -361,8 +379,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS4
     acls4_loc = Location(mrid="acls4-loc")
-    acls4_loc.add_point(PositionPoint(100.00, 80.80))
-    acls4_loc.add_point(PositionPoint(100.00, 80.80))
+    acls4_loc.add_point(PositionPoint(149.11010887298323, -35.2700474576177))
+    acls4_loc.add_point(PositionPoint(149.11048438224535, -35.27024892463094))
     network.add(acls4_loc)
 
     acls4 = AcLineSegment(mrid="acls4",
@@ -384,8 +402,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS5
     acls5_loc = Location(mrid="acls5-loc")
-    acls5_loc.add_point(PositionPoint(100.00, 80.80))
-    acls5_loc.add_point(PositionPoint(100.00, 80.80))
+    acls5_loc.add_point(PositionPoint(149.11003377113082, -35.27061681962318))
+    acls5_loc.add_point(PositionPoint(149.110248347852, -35.27128253012409))
     network.add(acls5_loc)
 
     acls5 = AcLineSegment(mrid="acls5",
@@ -407,8 +425,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS6
     acls6_loc = Location(mrid="acls6-loc")
-    acls6_loc.add_point(PositionPoint(100.00, 80.80))
-    acls6_loc.add_point(PositionPoint(100.00, 80.80))
+    acls6_loc.add_point(PositionPoint(149.110248347852, -35.27128253012409))
+    acls6_loc.add_point(PositionPoint(149.11031272086836, -35.27192195742791))
     network.add(acls6_loc)
 
     acls6 = AcLineSegment(mrid="acls6",
@@ -430,8 +448,8 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
     # ACLS7
     acls7_loc = Location(mrid="acls7-loc")
-    acls7_loc.add_point(PositionPoint(100.00, 80.80))
-    acls7_loc.add_point(PositionPoint(100.00, 80.80))
+    acls7_loc.add_point(PositionPoint(149.11031272086836, -35.27192195742791))
+    acls7_loc.add_point(PositionPoint(149.1108598915074, -35.271930716670994))
     network.add(acls7_loc)
 
     acls7 = AcLineSegment(mrid="acls7",
@@ -452,7 +470,7 @@ def create_lines(network, bv_416v, connectivity_node_mrid, plsi_1):
 
 
 async def main():
-    parser = argparse.ArgumentParser(description="Zepben cimbend demo for the IEEE European LV Test feeder")
+    parser = argparse.ArgumentParser(description="Zepben cimbend demo for a basic LV test feeder")
     parser.add_argument('server', help='Host and port of grpc server', metavar="host:port", nargs="?",
                         default="localhost")
     parser.add_argument('--rpc-port', help="The gRPC port for the server", default="50051")
@@ -479,13 +497,15 @@ async def main():
         client_id = args.client_id
 
     # Creates a Network
-    network = create_feeder()
+    net = create_network()
+    diagram = create_diagram()
 
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
-                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
+                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
         # Send the network to the postbox instance.
-        res = await conn.send([network])
+        client = ProducerClient(channel=channel)
+        res = await client.send([net, diagram])
 
         # TODO: Examples of querying EWB
 

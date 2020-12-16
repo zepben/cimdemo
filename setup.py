@@ -31,7 +31,7 @@ setup(
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     install_requires=[
-        "zepben.cimbend",
+        "zepben.evolve==0.20.0",
         "grpcio",
         "plotly",
         "python-jose-cryptodome",
