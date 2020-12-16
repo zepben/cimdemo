@@ -11,13 +11,20 @@ import logging
 from zepben.evolve import NetworkService, Breaker, Terminal, AcLineSegment, EnergySource, \
     EnergyConsumer, PerLengthSequenceImpedance, BaseVoltage, Location, PositionPoint, EnergySourcePhase, \
     PowerTransformerEnd, WindingConnection, PowerTransformer, VectorGroup, PhaseShuntConnectionKind, \
-    EnergyConsumerPhase, RatioTapChanger, connect_async, ProducerClient
-from zepben.evolve import PhaseCode, SinglePhaseKind
+    EnergyConsumerPhase, RatioTapChanger, connect_async, ProducerClient, DiagramObject, DiagramService
+from zepben.evolve import PhaseCode, SinglePhaseKind, Feeder
 
 logger = logging.getLogger(__name__)
 
 
-def create_feeder():
+def create_diagram(feeder):
+    # Create a Diagram. To create a diagram you need to create a DiagramService()
+    service = DiagramService()
+    service.add(feeder)
+    return service
+
+
+def create_network():
     """
     Creates a small feeder based on https://bitbucket.org/zepben/cimdemo/src/master/lv_simple_net.png.
     :return: A NetworkService representing the feeder.
@@ -88,15 +95,19 @@ def create_feeder():
     # Note BaseVoltage is not used for the PowerTransformer as it has two separate voltages. rated_u must be populated
     # on both ends.
     power_transformer = PowerTransformer(mrid="PowerTransformer", vector_group=VectorGroup.DYN11)
-    delta_pt_end = PowerTransformerEnd(mrid="delta-pt-end", rated_s=800000, rated_u=11000, connection_kind=WindingConnection.D, power_transformer=power_transformer)
-    delta_tap_changer = RatioTapChanger(mrid="rtc1", high_step=4, low_step=1, step=2.0, neutral_step=2, normal_step=2, step_voltage_increment=0.25, transformer_end=delta_pt_end)
+    delta_pt_end = PowerTransformerEnd(mrid="delta-pt-end", rated_s=800000, rated_u=11000,
+                                       connection_kind=WindingConnection.D, power_transformer=power_transformer)
+    delta_tap_changer = RatioTapChanger(mrid="rtc1", high_step=4, low_step=1, step=2.0, neutral_step=2, normal_step=2,
+                                        step_voltage_increment=0.25, transformer_end=delta_pt_end)
     delta_pt_end.ratio_tap_changer = delta_tap_changer
 
     network.add(delta_tap_changer)
     network.add(delta_pt_end)
 
-    wye_pt_end = PowerTransformerEnd(mrid="wye-pt-end", rated_s=800000, rated_u=416, connection_kind=WindingConnection.Yn, power_transformer=power_transformer)
-    wye_tap_changer = RatioTapChanger(mrid="rtc2", high_step=2, low_step=1, step=2.0, neutral_step=2, normal_step=2, step_voltage_increment=0.5, transformer_end=wye_pt_end)
+    wye_pt_end = PowerTransformerEnd(mrid="wye-pt-end", rated_s=800000, rated_u=416,
+                                     connection_kind=WindingConnection.Yn, power_transformer=power_transformer)
+    wye_tap_changer = RatioTapChanger(mrid="rtc2", high_step=2, low_step=1, step=2.0, neutral_step=2, normal_step=2,
+                                      step_voltage_increment=0.5, transformer_end=wye_pt_end)
     wye_pt_end.ratio_tap_changer = wye_tap_changer
 
     network.add(wye_tap_changer)
@@ -125,7 +136,7 @@ def create_feeder():
 
     # Location
     pt_loc = Location(mrid='pt-loc')
-    pt_loc.add_point(PositionPoint(149.10941149863936,35.26964014234307))
+    pt_loc.add_point(PositionPoint(149.10941149863936, 35.26964014234307))
     power_transformer.location = pt_loc
     network.add(pt_loc)
 
@@ -143,7 +154,7 @@ def create_feeder():
 
     # Create a location for the Breaker
     breaker_loc = Location(mrid='breaker-loc')
-    breaker_loc.add_point(PositionPoint(149.10967971954085,-35.269618243614396))
+    breaker_loc.add_point(PositionPoint(149.10967971954085, -35.269618243614396))
     network.add(breaker_loc)
 
     breaker = Breaker(mrid="Breaker", base_voltage=bv_416v, location=breaker_loc)
@@ -170,7 +181,7 @@ def create_feeder():
     # correspond to the matching Terminal.
     acls1_loc = Location(mrid="acls1-loc")
     acls1_loc.add_point(PositionPoint(149.10967971954085, -35.269618243614396))
-    acls1_loc.add_point(PositionPoint(149.11003377113082,-35.27061681962318))
+    acls1_loc.add_point(PositionPoint(149.11003377113082, -35.27061681962318))
     network.add(acls1_loc)
 
     acls1 = AcLineSegment(mrid="acls1",
@@ -207,7 +218,7 @@ def create_feeder():
 
     # Create the EnergyConsumer's Location
     ec1_loc = Location(mrid="ec1-loc")
-    ec1_loc.add_point(PositionPoint(149.11037709388472,-35.269758395375725))
+    ec1_loc.add_point(PositionPoint(149.11037709388472, -35.269758395375725))
     network.add(ec1_loc)
 
     energy_consumer1 = EnergyConsumer(mrid="EnergyConsumer1",
@@ -233,7 +244,7 @@ def create_feeder():
     network.add(esp[0])
 
     es2_loc = Location(mrid="es2-loc")
-    es2_loc.add_point(PositionPoint(149.1106238571141,-35.269881027967976))
+    es2_loc.add_point(PositionPoint(149.1106238571141, -35.269881027967976))
     network.add(es2_loc)
 
     energy_source_pv = EnergySource(mrid="PV-DG",
@@ -256,7 +267,7 @@ def create_feeder():
     network.add(ecp[0])
 
     ec2_loc = Location(mrid="ec2-loc")
-    ec2_loc.add_point(PositionPoint(149.1108598915074,-35.271930716670994))
+    ec2_loc.add_point(PositionPoint(149.1108598915074, -35.271930716670994))
     network.add(ec2_loc)
 
     energy_consumer2 = EnergyConsumer(mrid="EnergyConsumer2",
@@ -480,14 +491,16 @@ async def main():
         client_id = args.client_id
 
     # Creates a Network
-    network = create_feeder()
+    net = create_network()
+    feeder = Feeder()
+    diagram = create_diagram(feeder)
 
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
         # Send the network to the postbox instance.
         client = ProducerClient(channel=channel)
-        res = await client.send([network])
+        res = await client.send([diagram])
 
         # TODO: Examples of querying EWB
 
