@@ -61,7 +61,7 @@ class Network:
     def add_location(self, row):
         loc = ev.Location()
         for coord in row["geometry"].coords:
-            logger.info("Creating coordinates: " + coord.__str__())
+            logger.info(f'Creating coordinates: {coord}')
             loc.add_point(ev.PositionPoint(coord[0], coord[1]))
             logger.info('Add Location to Network Service')
             self.ns.add(loc)
@@ -75,21 +75,21 @@ class Network:
     def create_equipment(self, row, loc):
         class_name = self.get_cim_class(row[self.get_field_name('class')])
         if class_name is not None:
-            logger.info("Creating CIM Class: " + class_name)
+            logger.info(f'Creating CIM Class: {class_name}')
             class_ = getattr(ev, class_name)
             eq = class_()
-            logger.info('Creating Equipment:' + ", mRID: " + str(row[self.get_field_name("mrid")]))
+            logger.info(f'Creating Equipment mRID: {row[self.get_field_name("mrid")]}')
             eq.mrid = str(row[self.get_field_name("mrid")])
             eq.name = str(row[self.get_field_name("name")])
             eq.location = loc
             if row[self.get_field_name('baseVoltage')] is not None:
-                logger.info('Assigning BaseVoltage: ' + str(row['baseVoltage']))
+                logger.info(f'Assigning BaseVoltage: {row["baseVoltage"]}')
                 eq.base_voltage = self.ns.get(row[self.get_field_name('baseVoltage')])
             else:
-                logger.info('baseVoltage = None. Assigning BaseVoltage: ' + 'UNKNOWN')
+                logger.info(f'baseVoltage = None. Assigning BaseVoltage: UNKNOWN')
                 eq.base_voltage = self.ns.get('UNKNOWN')
         else:
-            raise Exception("GIS Class: " + row[self.get_field_name('class')] + ", is not mapped to any Evolve Profile class")
+            raise Exception(f'GIS Class: {row[self.get_field_name("class")]} is not mapped to any Evolve Profile class')
         return eq
 
     def add_feeder(self):
@@ -160,7 +160,7 @@ async def main():
     # Creates a Network
     network = Network().add_feeder()
 
-    # Connect to a local postbox instance using credentials if provided.
+    # Connect to a local cimcap instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
         client = ProducerClient(channel)
