@@ -169,7 +169,7 @@ async def main():
     # Creates a Network
     network = Network().add_feeder()
 
-    # Connect to a local postbox instance using credentials if provided.
+    # Connect to a local cimcap instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
                              client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
         # Send the network to the postbox instance.
