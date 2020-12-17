@@ -101,7 +101,7 @@ class Network:
                 self.ns.add(eq)
                 fdr.add_equipment(eq)
             else:
-                logger.error("Equipment not mapped to a Evolve Profile class: " + row[self.get_field_name('mrid')])
+                logger.error(f'Equipment not mapped to a Evolve Profile class: {row[self.get_field_name("mrid")]}')
         self.connect_equipment()
         self.ns.add(fdr)
         return self.ns
@@ -110,8 +110,7 @@ class Network:
         gdf_b = self.gdf[self.gdf['geometry'].apply(lambda x: x.type == 'LineString')]
         for index, row in gdf_b.iterrows():
             if row[self.get_field_name('fromEq')] is not None:
-                logger.info("Connecting: " + str(row[self.get_field_name('fromEq')]) + " to " + str(row[self.get_field_name('toEq')]) + ", with acls:"
-                            + str(row[self.get_field_name('mrid')]))
+                logger.info(f'Connecting: {(row[self.get_field_name("fromEq")])} to {row[self.get_field_name("toEq")]} with acls: {row[self.get_field_name("mrid")]}')
                 eq0 = self.ns.get(mrid=str(row[self.get_field_name('mrid')]))
                 t01 = ev.Terminal(conducting_equipment=eq0)
                 t02 = ev.Terminal(conducting_equipment=eq0)
