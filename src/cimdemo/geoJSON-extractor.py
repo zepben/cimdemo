@@ -25,7 +25,6 @@ def get_path():
 
 
 def read_json_file(path):
-    # Opening JSON file
     with open(path, "r") as f:
         return json.loads(f.read())
 
