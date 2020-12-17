@@ -1,7 +1,7 @@
 # This example illustrates how to ingest and send to the cimcap server a network from a .geojon file.
 # It requires a ee-mapping.json file on the same directory of teh EE_geoJSON_ex.py file
 import zepben.evolve as ev
-from zepben.evolve.streaming import connect_async
+from zepben.evolve import connect_async, ProducerClient
 import geopandas as gp
 from tkinter import filedialog
 from tkinter import *
@@ -79,12 +79,12 @@ class Network:
             logger.info("Creating CIM Class: " + class_name)
             class_ = getattr(ev, class_name)
             eq = class_()
-            logger.info('Creating Equipment:' + ", mRID: " + row[self.get_field_name("mrid")].__str__())
-            eq.mrid = row[self.get_field_name("mrid")]
-            eq.name = row[self.get_field_name("name")]
+            logger.info('Creating Equipment:' + ", mRID: " + str(row[self.get_field_name("mrid")]))
+            eq.mrid = str(row[self.get_field_name("mrid")])
+            eq.name = str(row[self.get_field_name("name")])
             eq.location = loc
             if row[self.get_field_name('baseVoltage')] is not None:
-                logger.info('Assigning BaseVoltage: ' + row['baseVoltage'].__str__())
+                logger.info('Assigning BaseVoltage: ' + str(row['baseVoltage']))
                 eq.base_voltage = self.ns.get(row[self.get_field_name('baseVoltage')])
             else:
                 logger.info('baseVoltage = None. Assigning BaseVoltage: ' + 'UNKNOWN')
@@ -111,9 +111,9 @@ class Network:
         gdf_b = self.gdf[self.gdf['geometry'].apply(lambda x: x.type == 'LineString')]
         for index, row in gdf_b.iterrows():
             if row[self.get_field_name('fromEq')] is not None:
-                logger.info("Connecting: " + row[self.get_field_name('fromEq')].__str__() + " to " + row[self.get_field_name('toEq')].__str__() + ", with acls:"
-                            + row[self.get_field_name('mrid')].__str__())
-                eq0 = self.ns.get(mrid=row[self.get_field_name('mrid')].__str__())
+                logger.info("Connecting: " + str(row[self.get_field_name('fromEq')]) + " to " + str(row[self.get_field_name('toEq')]) + ", with acls:"
+                            + str(row[self.get_field_name('mrid')]))
+                eq0 = self.ns.get(mrid=str(row[self.get_field_name('mrid')]))
                 t01 = ev.Terminal(conducting_equipment=eq0)
                 t02 = ev.Terminal(conducting_equipment=eq0)
                 eq0.add_terminal(t01)
@@ -163,9 +163,10 @@ async def main():
 
     # Connect to a local postbox instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
-                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as conn:
+                             client_id=client_id, client_secret=client_secret, pkey=key, cert=cert, ca=ca) as channel:
+        client = ProducerClient(channel)
         # Send the network to the postbox instance.
-        res = await conn.send([network])
+        res = await client.send([network])
 
 
 if __name__ == "__main__":
