@@ -86,7 +86,7 @@ class Network:
             logger.info("Creating CIM Class: " + class_name)
             class_ = getattr(cim, class_name)
             eq = class_()
-            logger.info('Creating Equipment:' + ", mRID: " + eq.mrid.__str__())
+            logger.info('Creating Equipment:' + ", mRID: " + str(eq.mrid))
             eq.mrid = row["id"]
             eq.name = row["name"]
             eq.location = loc
