@@ -1,4 +1,4 @@
-# This example illustrates how to ingest and send to the cimcap server a network from a .geojon file.
+# This example illustrates how to ingest and send to the cimcap server a network from a .geojson file.
 # It requires a ee-mapping.json file on the same directory of teh EE_geoJSON_ex.py file
 import zepben.evolve as ev
 from zepben.evolve import connect_async, ProducerClient
