@@ -11,8 +11,12 @@
     "cimClass": "EnergyConsumer",
     "style": ""
   },
-  "PowerTransformer": {
-    "cimClass": "PowerTransformer",
+  "EnergySource": {
+    "cimClass": "EnergySource",
+    "style": ""
+  },
+  "Breaker": {
+    "cimClass": "Breaker",
     "style": ""
   }
 }
