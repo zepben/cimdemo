@@ -34,7 +34,7 @@ class Network:
 
     def __init__(self, namespace='evolve'):
         self.namespace = namespace
-        self.path = get_path()
+        self.path = 'BasicFeeder.geojson'
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_json_file('cim-mapping.json')
         self.config_file = read_json_file('geojson-config.json')
@@ -69,8 +69,8 @@ class Network:
         return loc
 
     def add_base_voltages(self):
-        self.ns.add(ev.BaseVoltage(mrid='415V', nominal_voltage=0.415, name='415V'))
-        self.ns.add(ev.BaseVoltage(mrid='11kV', nominal_voltage=11, name='11kV'))
+        self.ns.add(ev.BaseVoltage(mrid='415V', nominal_voltage=415, name='415V'))
+        self.ns.add(ev.BaseVoltage(mrid='11kV', nominal_voltage=11000, name='11kV'))
         self.ns.add(ev.BaseVoltage(mrid='UNKNOWN', nominal_voltage=0, name='UNKNOWN'))
 
     def create_equipment(self, row, loc):
