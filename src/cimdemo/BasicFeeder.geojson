@@ -1,1 +1,758 @@
-{"type":"FeatureCollection","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"features":[{"type":"Feature","id":28,"geometry":{"type":"Point","coordinates":[149.109057447049,-35.2696664208097]},"properties":{"OBJECTID":28,"GlobalID":"50a1ce1d-7e55-485b-82dc-6dd1bf99658d","CreationDate":"Tue, 15 Dec 2020 06:18:35 GMT","Creator":"cmacana","EditDate":"Tue, 15 Dec 2020 06:40:18 GMT","Editor":"cmacana","class":"EnergySource","baseVoltage":"11kV","Lat":"-35.2696664208097","Lon":"149.10905744704937","name":"Source"}},{"type":"Feature","id":29,"geometry":{"type":"Point","coordinates":[149.109411498639,-35.2696401423431]},"properties":{"OBJECTID":29,"GlobalID":"88ef355c-edc9-4a70-b205-df6334bdddde","CreationDate":"Tue, 15 Dec 2020 06:18:50 GMT","Creator":"cmacana","EditDate":"Tue, 15 Dec 2020 06:18:50 GMT","Editor":"cmacana","class":"PowerTransformer","baseVoltage":"11kV","Lat":"-35.26964014234307","Lon":"149.10941149863936","name":null}},{"type":"Feature","id":30,"geometry":{"type":"Point","coordinates":[149.109679719541,-35.2696182436144]},"properties":{"OBJECTID":30,"GlobalID":"63fd609b-4a25-429f-a665-60fb095338ed","CreationDate":"Tue, 15 Dec 2020 06:20:32 GMT","Creator":"cmacana","EditDate":"Tue, 15 Dec 2020 06:20:32 GMT","Editor":"cmacana","class":"Breaker","baseVoltage":"11kV","Lat":"-35.269618243614396","Lon":"149.10967971954085","name":null}},{"type":"Feature","id":33,"geometry":{"type":"Point","coordinates":[149.110033771131,-35.2706168196232]},"properties":{"OBJECTID":33,"GlobalID":"a70388f8-cdd0-4bf5-8b60-b87a31f4c5a1","CreationDate":"Tue, 15 Dec 2020 06:23:12 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:08:45 GMT","Editor":"cmacana","class":"Junction","baseVoltage":"415V","Lat":"-35.27061681962318","Lon":"149.11003377113082","name":null}},{"type":"Feature","id":34,"geometry":{"type":"Point","coordinates":[149.110108872983,-35.2700474576177]},"properties":{"OBJECTID":34,"GlobalID":"c84803ed-fea2-449e-8194-76d521bba681","CreationDate":"Tue, 15 Dec 2020 06:25:06 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:08:52 GMT","Editor":"cmacana","class":"Junction","baseVoltage":"415V","Lat":"-35.2700474576177","Lon":"149.11010887298323","name":null}},{"type":"Feature","id":35,"geometry":{"type":"Point","coordinates":[149.110248347852,-35.2712825301241]},"properties":{"OBJECTID":35,"GlobalID":"74cf46bb-4439-452f-abab-6090f1552f50","CreationDate":"Tue, 15 Dec 2020 06:25:21 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:38 GMT","Editor":"cmacana","class":"Junction","baseVoltage":"415V","Lat":"-35.27128253012409","Lon":"149.110248347852","name":null}},{"type":"Feature","id":36,"geometry":{"type":"Point","coordinates":[149.110312720868,-35.2719219574279]},"properties":{"OBJECTID":36,"GlobalID":"4c67ad24-7bcb-4161-a410-23196419aab4","CreationDate":"Tue, 15 Dec 2020 06:29:49 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:40 GMT","Editor":"cmacana","class":"Junction","baseVoltage":"415V","Lat":"-35.27192195742791","Lon":"149.11031272086836","name":null}},{"type":"Feature","id":38,"geometry":{"type":"Point","coordinates":[149.110859891507,-35.271930716671]},"properties":{"OBJECTID":38,"GlobalID":"d65f6fdf-5bb9-47be-bcd0-1c2d3522edb3","CreationDate":"Tue, 15 Dec 2020 06:33:26 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:42 GMT","Editor":"cmacana","class":"EnergyConsumer","baseVoltage":"415V","Lat":"-35.271930716670994","Lon":"149.1108598915074","name":"ec2"}},{"type":"Feature","id":39,"geometry":{"type":"Point","coordinates":[149.110377093885,-35.2697583953757]},"properties":{"OBJECTID":39,"GlobalID":"955b05dd-eed7-4ab6-9f7a-198f030f9927","CreationDate":"Tue, 15 Dec 2020 06:34:32 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:43 GMT","Editor":"cmacana","class":"EnergyConsumer","baseVoltage":"415V","Lat":"-35.269758395375725","Lon":"149.11037709388472","name":"ec1"}},{"type":"Feature","id":40,"geometry":{"type":"Point","coordinates":[149.110484382245,-35.2702489246309]},"properties":{"OBJECTID":40,"GlobalID":"2fc925dc-1ebb-410f-b1a9-7feaf8e4824b","CreationDate":"Tue, 15 Dec 2020 06:34:59 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:46 GMT","Editor":"cmacana","class":"EnergyConsumer","baseVoltage":"415V","Lat":"-35.27024892463094","Lon":"149.11048438224535","name":"ec3"}},{"type":"Feature","id":41,"geometry":{"type":"Point","coordinates":[149.110623857114,-35.269881027968]},"properties":{"OBJECTID":41,"GlobalID":"481d6e3c-2ac0-45be-bdb8-ebc8fb354d3c","CreationDate":"Tue, 15 Dec 2020 06:37:18 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:44 GMT","Editor":"cmacana","class":"EnergySource","baseVoltage":"415V","Lat":"-35.269881027967976","Lon":"149.1106238571141","name":"es1"}},{"type":"Feature","id":42,"geometry":{"type":"Point","coordinates":[149.110387822721,-35.2698897874317]},"properties":{"OBJECTID":42,"GlobalID":"e32c32e4-c015-41dd-b2a9-b19d3b77c037","CreationDate":"Tue, 15 Dec 2020 06:37:46 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:48 GMT","Editor":"cmacana","class":"Junction","baseVoltage":"415V","Lat":"-35.269889787431744","Lon":"149.11038782272078","name":null}},{"type":"Feature","id":43,"geometry":{"type":"Point","coordinates":[149.109862109754,-35.2724475103369]},"properties":{"OBJECTID":43,"GlobalID":"d2127ed8-de59-427a-a22f-ac7765637b9f","CreationDate":"Thu, 17 Dec 2020 03:06:11 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 05:09:49 GMT","Editor":"cmacana","class":"EnergyConsumer","baseVoltage":"415V","Lat":"-35.27244751033687","Lon":"149.10986210975383","name":"ec4"}},{"type":"Feature","id":44,"geometry":{"type":"Point","coordinates":[149.110931092326,-35.2723286025698]},"properties":{"OBJECTID":44,"GlobalID":"cfbe657b-b144-40c6-899d-ef8a1c56d052","CreationDate":"Thu, 17 Dec 2020 03:32:19 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 03:32:19 GMT","Editor":"cmacana","class":"EnergyConsumer","baseVoltage":"415V","Lat":"-35.272328602569814","Lon":"149.1109310923255","name":"ec7"}},{"type":"Feature","id":29,"geometry":{"type":"LineString","coordinates":[[149.109057447049,-35.2696664208097],[149.109411498639,-35.2696401423431]]},"properties":{"OBJECTID":29,"GlobalID":"6c9841dd-a32b-4fe1-b7b7-2d83bd17c5b5","CreationDate":"Tue, 15 Dec 2020 06:20:09 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:04:40 GMT","Editor":"cmacana","FromEq":"88ef355c-edc9-4a70-b205-df6334bdddde","ToEq":"50a1ce1d-7e55-485b-82dc-6dd1bf99658d","length":0,"class":"AcLineSegment","name":null,"baseVoltage":"11kV"}},{"type":"Feature","id":30,"geometry":{"type":"LineString","coordinates":[[149.109411498639,-35.2696401423431],[149.109679719541,-35.2696182436144]]},"properties":{"OBJECTID":30,"GlobalID":"61525276-a5bf-4212-b11b-da143e570ba7","CreationDate":"Tue, 15 Dec 2020 06:20:51 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:05:29 GMT","Editor":"cmacana","FromEq":"63fd609b-4a25-429f-a665-60fb095338ed","ToEq":"88ef355c-edc9-4a70-b205-df6334bdddde","length":0,"class":"AcLineSegment","name":null,"baseVoltage":"415V"}},{"type":"Feature","id":31,"geometry":{"type":"LineString","coordinates":[[149.109679719541,-35.2696182436144],[149.110033771131,-35.2706168196232]]},"properties":{"OBJECTID":31,"GlobalID":"95e84077-d8f7-4945-8716-dfe264ff8233","CreationDate":"Tue, 15 Dec 2020 06:23:48 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:05:39 GMT","Editor":"cmacana","FromEq":"a70388f8-cdd0-4bf5-8b60-b87a31f4c5a1","ToEq":"63fd609b-4a25-429f-a665-60fb095338ed","length":31.72,"class":"AcLineSegment","name":"acls1","baseVoltage":"415V"}},{"type":"Feature","id":32,"geometry":{"type":"LineString","coordinates":[[149.110033771131,-35.2706168196232],[149.110248347852,-35.2712825301241]]},"properties":{"OBJECTID":32,"GlobalID":"333c7966-74ee-4f7b-8b5c-9d0d5bc501d2","CreationDate":"Tue, 15 Dec 2020 06:26:05 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:05:54 GMT","Editor":"cmacana","FromEq":"74cf46bb-4439-452f-abab-6090f1552f50","ToEq":"a70388f8-cdd0-4bf5-8b60-b87a31f4c5a1","length":25.5,"class":"AcLineSegment","name":"acls5","baseVoltage":"415V"}},{"type":"Feature","id":33,"geometry":{"type":"LineString","coordinates":[[149.110033771131,-35.2706168196232],[149.110108872983,-35.2700474576177]]},"properties":{"OBJECTID":33,"GlobalID":"b1691b94-dc64-444f-981e-4ea116b7bd71","CreationDate":"Tue, 15 Dec 2020 06:29:02 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:08:21 GMT","Editor":"cmacana","FromEq":"c84803ed-fea2-449e-8194-76d521bba681","ToEq":"c84803ed-fea2-449e-8194-76d521bba681","length":6.75,"class":"AcLineSegment","name":"acls2","baseVoltage":"415V"}},{"type":"Feature","id":34,"geometry":{"type":"LineString","coordinates":[[149.110248347852,-35.2712825301241],[149.110312720868,-35.2719219574279]]},"properties":{"OBJECTID":34,"GlobalID":"14cd3aa5-c7fd-404d-a6cd-0907d247e0b9","CreationDate":"Tue, 15 Dec 2020 06:30:13 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:07:05 GMT","Editor":"cmacana","FromEq":"4c67ad24-7bcb-4161-a410-23196419aab4","ToEq":"74cf46bb-4439-452f-abab-6090f1552f50","length":5.7,"class":"AcLineSegment","name":"acls6","baseVoltage":"415V"}},{"type":"Feature","id":36,"geometry":{"type":"LineString","coordinates":[[149.110312720868,-35.2719219574279],[149.110859891507,-35.271930716671]]},"properties":{"OBJECTID":36,"GlobalID":"a6af648b-fa5c-47fe-b20a-38274ed712f5","CreationDate":"Tue, 15 Dec 2020 06:33:48 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:07:55 GMT","Editor":"cmacana","FromEq":"d65f6fdf-5bb9-47be-bcd0-1c2d3522edb3","ToEq":"4c67ad24-7bcb-4161-a410-23196419aab4","length":12.65,"class":"AcLineSegment","name":"acls7","baseVoltage":"415V"}},{"type":"Feature","id":37,"geometry":{"type":"LineString","coordinates":[[149.110108872983,-35.2700474576177],[149.110484382245,-35.2702489246309]]},"properties":{"OBJECTID":37,"GlobalID":"45d9905f-ccda-4909-8434-ddc9ee8d957c","CreationDate":"Tue, 15 Dec 2020 06:35:38 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:08:23 GMT","Editor":"cmacana","FromEq":"2fc925dc-1ebb-410f-b1a9-7feaf8e4824b","ToEq":"c84803ed-fea2-449e-8194-76d521bba681","length":75.6,"class":"AcLineSegment","name":"acls4","baseVoltage":"415V"}},{"type":"Feature","id":39,"geometry":{"type":"LineString","coordinates":[[149.110108872983,-35.2700474576177],[149.110387822721,-35.2698897874317]]},"properties":{"OBJECTID":39,"GlobalID":"49df9d26-9359-49b2-b5e9-ec0e64b39aaf","CreationDate":"Tue, 15 Dec 2020 06:38:54 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:08:25 GMT","Editor":"cmacana","FromEq":"e32c32e4-c015-41dd-b2a9-b19d3b77c037","ToEq":"c84803ed-fea2-449e-8194-76d521bba681","length":5.25,"class":"AcLineSegment","name":"acls3","baseVoltage":"415V"}},{"type":"Feature","id":40,"geometry":{"type":"LineString","coordinates":[[149.110377093885,-35.2697583953757],[149.110387822721,-35.2698897874317]]},"properties":{"OBJECTID":40,"GlobalID":"1d0e3d0c-f91e-45d1-8fdd-9df28ee153dc","CreationDate":"Tue, 15 Dec 2020 06:39:13 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:08:26 GMT","Editor":"cmacana","FromEq":"e32c32e4-c015-41dd-b2a9-b19d3b77c037","ToEq":"955b05dd-eed7-4ab6-9f7a-198f030f9927","length":0,"class":"AcLineSegment","name":null,"baseVoltage":"415V"}},{"type":"Feature","id":41,"geometry":{"type":"LineString","coordinates":[[149.110387822721,-35.2698897874317],[149.110623857114,-35.269881027968]]},"properties":{"OBJECTID":41,"GlobalID":"d73fc24e-ae2c-45bf-a322-ac76748c212a","CreationDate":"Tue, 15 Dec 2020 06:39:28 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:08:29 GMT","Editor":"cmacana","FromEq":"e32c32e4-c015-41dd-b2a9-b19d3b77c037","ToEq":"481d6e3c-2ac0-45be-bdb8-ebc8fb354d3c","length":0,"class":"AcLineSegment","name":null,"baseVoltage":"415V"}},{"type":"Feature","id":42,"geometry":{"type":"LineString","coordinates":[[149.110312720868,-35.2719219574279],[149.109862109754,-35.2724475103369],[149.10987283859,-35.2724825470762]]},"properties":{"OBJECTID":42,"GlobalID":"bc44a3dd-17f6-4a5f-8015-2037ef93d507","CreationDate":"Thu, 17 Dec 2020 03:09:29 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:07:23 GMT","Editor":"cmacana","FromEq":"d2127ed8-de59-427a-a22f-ac7765637b9f","ToEq":"4c67ad24-7bcb-4161-a410-23196419aab4","length":null,"class":"AcLineSegment","name":"acls7","baseVoltage":"415V"}},{"type":"Feature","id":43,"geometry":{"type":"LineString","coordinates":[[149.110312720868,-35.2719219574279],[149.110931092326,-35.2723286025698],[149.110920363489,-35.2723329821695]]},"properties":{"OBJECTID":43,"GlobalID":"2dc3c15f-58ba-4158-9648-d4014aa5aa7a","CreationDate":"Thu, 17 Dec 2020 03:33:15 GMT","Creator":"cmacana","EditDate":"Thu, 17 Dec 2020 06:07:42 GMT","Editor":"cmacana","FromEq":"cfbe657b-b144-40c6-899d-ef8a1c56d052","ToEq":"4c67ad24-7bcb-4161-a410-23196419aab4","length":null,"class":"AcLineSegment","name":"acls8","baseVoltage":"415V"}}]}
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": 28,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.109057447049,
+          -35.2696664208097
+        ]
+      },
+      "properties": {
+        "OBJECTID": 28,
+        "GlobalID": "50a1ce1d-7e55-485b-82dc-6dd1bf99658d",
+        "CreationDate": "Tue, 15 Dec 2020 06:18:35 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Tue, 15 Dec 2020 06:40:18 GMT",
+        "Editor": "cmacana",
+        "class": "EnergySource",
+        "baseVoltage": "11kV",
+        "Lat": "-35.2696664208097",
+        "Lon": "149.10905744704937",
+        "name": "Source"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 29,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.109411498639,
+          -35.2696401423431
+        ]
+      },
+      "properties": {
+        "OBJECTID": 29,
+        "GlobalID": "88ef355c-edc9-4a70-b205-df6334bdddde",
+        "CreationDate": "Tue, 15 Dec 2020 06:18:50 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Tue, 15 Dec 2020 06:18:50 GMT",
+        "Editor": "cmacana",
+        "class": "PowerTransformer",
+        "baseVoltage": "11kV",
+        "Lat": "-35.26964014234307",
+        "Lon": "149.10941149863936",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 30,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.109679719541,
+          -35.2696182436144
+        ]
+      },
+      "properties": {
+        "OBJECTID": 30,
+        "GlobalID": "63fd609b-4a25-429f-a665-60fb095338ed",
+        "CreationDate": "Tue, 15 Dec 2020 06:20:32 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Tue, 15 Dec 2020 06:20:32 GMT",
+        "Editor": "cmacana",
+        "class": "Breaker",
+        "baseVoltage": "11kV",
+        "Lat": "-35.269618243614396",
+        "Lon": "149.10967971954085",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 33,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110033771131,
+          -35.2706168196232
+        ]
+      },
+      "properties": {
+        "OBJECTID": 33,
+        "GlobalID": "a70388f8-cdd0-4bf5-8b60-b87a31f4c5a1",
+        "CreationDate": "Tue, 15 Dec 2020 06:23:12 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:08:45 GMT",
+        "Editor": "cmacana",
+        "class": "Junction",
+        "baseVoltage": "415V",
+        "Lat": "-35.27061681962318",
+        "Lon": "149.11003377113082",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 34,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110108872983,
+          -35.2700474576177
+        ]
+      },
+      "properties": {
+        "OBJECTID": 34,
+        "GlobalID": "c84803ed-fea2-449e-8194-76d521bba681",
+        "CreationDate": "Tue, 15 Dec 2020 06:25:06 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:08:52 GMT",
+        "Editor": "cmacana",
+        "class": "Junction",
+        "baseVoltage": "415V",
+        "Lat": "-35.2700474576177",
+        "Lon": "149.11010887298323",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 35,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110248347852,
+          -35.2712825301241
+        ]
+      },
+      "properties": {
+        "OBJECTID": 35,
+        "GlobalID": "74cf46bb-4439-452f-abab-6090f1552f50",
+        "CreationDate": "Tue, 15 Dec 2020 06:25:21 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:38 GMT",
+        "Editor": "cmacana",
+        "class": "Junction",
+        "baseVoltage": "415V",
+        "Lat": "-35.27128253012409",
+        "Lon": "149.110248347852",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 36,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110312720868,
+          -35.2719219574279
+        ]
+      },
+      "properties": {
+        "OBJECTID": 36,
+        "GlobalID": "4c67ad24-7bcb-4161-a410-23196419aab4",
+        "CreationDate": "Tue, 15 Dec 2020 06:29:49 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:40 GMT",
+        "Editor": "cmacana",
+        "class": "Junction",
+        "baseVoltage": "415V",
+        "Lat": "-35.27192195742791",
+        "Lon": "149.11031272086836",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 38,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110859891507,
+          -35.271930716671
+        ]
+      },
+      "properties": {
+        "OBJECTID": 38,
+        "GlobalID": "d65f6fdf-5bb9-47be-bcd0-1c2d3522edb3",
+        "CreationDate": "Tue, 15 Dec 2020 06:33:26 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:42 GMT",
+        "Editor": "cmacana",
+        "class": "EnergyConsumer",
+        "baseVoltage": "415V",
+        "Lat": "-35.271930716670994",
+        "Lon": "149.1108598915074",
+        "name": "ec2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 39,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110377093885,
+          -35.2697583953757
+        ]
+      },
+      "properties": {
+        "OBJECTID": 39,
+        "GlobalID": "955b05dd-eed7-4ab6-9f7a-198f030f9927",
+        "CreationDate": "Tue, 15 Dec 2020 06:34:32 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:43 GMT",
+        "Editor": "cmacana",
+        "class": "EnergyConsumer",
+        "baseVoltage": "415V",
+        "Lat": "-35.269758395375725",
+        "Lon": "149.11037709388472",
+        "name": "ec1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 40,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110484382245,
+          -35.2702489246309
+        ]
+      },
+      "properties": {
+        "OBJECTID": 40,
+        "GlobalID": "2fc925dc-1ebb-410f-b1a9-7feaf8e4824b",
+        "CreationDate": "Tue, 15 Dec 2020 06:34:59 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:46 GMT",
+        "Editor": "cmacana",
+        "class": "EnergyConsumer",
+        "baseVoltage": "415V",
+        "Lat": "-35.27024892463094",
+        "Lon": "149.11048438224535",
+        "name": "ec3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 41,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110623857114,
+          -35.269881027968
+        ]
+      },
+      "properties": {
+        "OBJECTID": 41,
+        "GlobalID": "481d6e3c-2ac0-45be-bdb8-ebc8fb354d3c",
+        "CreationDate": "Tue, 15 Dec 2020 06:37:18 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:44 GMT",
+        "Editor": "cmacana",
+        "class": "EnergySource",
+        "baseVoltage": "415V",
+        "Lat": "-35.269881027967976",
+        "Lon": "149.1106238571141",
+        "name": "es1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 42,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110387822721,
+          -35.2698897874317
+        ]
+      },
+      "properties": {
+        "OBJECTID": 42,
+        "GlobalID": "e32c32e4-c015-41dd-b2a9-b19d3b77c037",
+        "CreationDate": "Tue, 15 Dec 2020 06:37:46 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:48 GMT",
+        "Editor": "cmacana",
+        "class": "Junction",
+        "baseVoltage": "415V",
+        "Lat": "-35.269889787431744",
+        "Lon": "149.11038782272078",
+        "name": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 43,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.109862109754,
+          -35.2724475103369
+        ]
+      },
+      "properties": {
+        "OBJECTID": 43,
+        "GlobalID": "d2127ed8-de59-427a-a22f-ac7765637b9f",
+        "CreationDate": "Thu, 17 Dec 2020 03:06:11 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 05:09:49 GMT",
+        "Editor": "cmacana",
+        "class": "EnergyConsumer",
+        "baseVoltage": "415V",
+        "Lat": "-35.27244751033687",
+        "Lon": "149.10986210975383",
+        "name": "ec4"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 44,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          149.110931092326,
+          -35.2723286025698
+        ]
+      },
+      "properties": {
+        "OBJECTID": 44,
+        "GlobalID": "cfbe657b-b144-40c6-899d-ef8a1c56d052",
+        "CreationDate": "Thu, 17 Dec 2020 03:32:19 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 03:32:19 GMT",
+        "Editor": "cmacana",
+        "class": "EnergyConsumer",
+        "baseVoltage": "415V",
+        "Lat": "-35.272328602569814",
+        "Lon": "149.1109310923255",
+        "name": "ec7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 29,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.109057447049,
+            -35.2696664208097
+          ],
+          [
+            149.109411498639,
+            -35.2696401423431
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 29,
+        "GlobalID": "6c9841dd-a32b-4fe1-b7b7-2d83bd17c5b5",
+        "CreationDate": "Tue, 15 Dec 2020 06:20:09 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:04:40 GMT",
+        "Editor": "cmacana",
+        "FromEq": "88ef355c-edc9-4a70-b205-df6334bdddde",
+        "ToEq": "50a1ce1d-7e55-485b-82dc-6dd1bf99658d",
+        "length": 0,
+        "class": "AcLineSegment",
+        "name": null,
+        "baseVoltage": "11kV"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 30,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.109411498639,
+            -35.2696401423431
+          ],
+          [
+            149.109679719541,
+            -35.2696182436144
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 30,
+        "GlobalID": "61525276-a5bf-4212-b11b-da143e570ba7",
+        "CreationDate": "Tue, 15 Dec 2020 06:20:51 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:05:29 GMT",
+        "Editor": "cmacana",
+        "FromEq": "63fd609b-4a25-429f-a665-60fb095338ed",
+        "ToEq": "88ef355c-edc9-4a70-b205-df6334bdddde",
+        "length": 0,
+        "class": "AcLineSegment",
+        "name": null,
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 31,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.109679719541,
+            -35.2696182436144
+          ],
+          [
+            149.110033771131,
+            -35.2706168196232
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 31,
+        "GlobalID": "95e84077-d8f7-4945-8716-dfe264ff8233",
+        "CreationDate": "Tue, 15 Dec 2020 06:23:48 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:05:39 GMT",
+        "Editor": "cmacana",
+        "FromEq": "a70388f8-cdd0-4bf5-8b60-b87a31f4c5a1",
+        "ToEq": "63fd609b-4a25-429f-a665-60fb095338ed",
+        "length": 31.72,
+        "class": "AcLineSegment",
+        "name": "acls1",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 32,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110033771131,
+            -35.2706168196232
+          ],
+          [
+            149.110248347852,
+            -35.2712825301241
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 32,
+        "GlobalID": "333c7966-74ee-4f7b-8b5c-9d0d5bc501d2",
+        "CreationDate": "Tue, 15 Dec 2020 06:26:05 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:05:54 GMT",
+        "Editor": "cmacana",
+        "FromEq": "74cf46bb-4439-452f-abab-6090f1552f50",
+        "ToEq": "a70388f8-cdd0-4bf5-8b60-b87a31f4c5a1",
+        "length": 25.5,
+        "class": "AcLineSegment",
+        "name": "acls5",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 33,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110033771131,
+            -35.2706168196232
+          ],
+          [
+            149.110108872983,
+            -35.2700474576177
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 33,
+        "GlobalID": "b1691b94-dc64-444f-981e-4ea116b7bd71",
+        "CreationDate": "Tue, 15 Dec 2020 06:29:02 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:08:21 GMT",
+        "Editor": "cmacana",
+        "FromEq": "c84803ed-fea2-449e-8194-76d521bba681",
+        "ToEq": "c84803ed-fea2-449e-8194-76d521bba681",
+        "length": 6.75,
+        "class": "AcLineSegment",
+        "name": "acls2",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 34,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110248347852,
+            -35.2712825301241
+          ],
+          [
+            149.110312720868,
+            -35.2719219574279
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 34,
+        "GlobalID": "14cd3aa5-c7fd-404d-a6cd-0907d247e0b9",
+        "CreationDate": "Tue, 15 Dec 2020 06:30:13 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:07:05 GMT",
+        "Editor": "cmacana",
+        "FromEq": "4c67ad24-7bcb-4161-a410-23196419aab4",
+        "ToEq": "74cf46bb-4439-452f-abab-6090f1552f50",
+        "length": 5.7,
+        "class": "AcLineSegment",
+        "name": "acls6",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 36,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110312720868,
+            -35.2719219574279
+          ],
+          [
+            149.110859891507,
+            -35.271930716671
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 36,
+        "GlobalID": "a6af648b-fa5c-47fe-b20a-38274ed712f5",
+        "CreationDate": "Tue, 15 Dec 2020 06:33:48 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:07:55 GMT",
+        "Editor": "cmacana",
+        "FromEq": "d65f6fdf-5bb9-47be-bcd0-1c2d3522edb3",
+        "ToEq": "4c67ad24-7bcb-4161-a410-23196419aab4",
+        "length": 12.65,
+        "class": "AcLineSegment",
+        "name": "acls7",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 37,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110108872983,
+            -35.2700474576177
+          ],
+          [
+            149.110484382245,
+            -35.2702489246309
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 37,
+        "GlobalID": "45d9905f-ccda-4909-8434-ddc9ee8d957c",
+        "CreationDate": "Tue, 15 Dec 2020 06:35:38 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:08:23 GMT",
+        "Editor": "cmacana",
+        "FromEq": "2fc925dc-1ebb-410f-b1a9-7feaf8e4824b",
+        "ToEq": "c84803ed-fea2-449e-8194-76d521bba681",
+        "length": 75.6,
+        "class": "AcLineSegment",
+        "name": "acls4",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 39,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110108872983,
+            -35.2700474576177
+          ],
+          [
+            149.110387822721,
+            -35.2698897874317
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 39,
+        "GlobalID": "49df9d26-9359-49b2-b5e9-ec0e64b39aaf",
+        "CreationDate": "Tue, 15 Dec 2020 06:38:54 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:08:25 GMT",
+        "Editor": "cmacana",
+        "FromEq": "e32c32e4-c015-41dd-b2a9-b19d3b77c037",
+        "ToEq": "c84803ed-fea2-449e-8194-76d521bba681",
+        "length": 5.25,
+        "class": "AcLineSegment",
+        "name": "acls3",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 40,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110377093885,
+            -35.2697583953757
+          ],
+          [
+            149.110387822721,
+            -35.2698897874317
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 40,
+        "GlobalID": "1d0e3d0c-f91e-45d1-8fdd-9df28ee153dc",
+        "CreationDate": "Tue, 15 Dec 2020 06:39:13 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:08:26 GMT",
+        "Editor": "cmacana",
+        "FromEq": "e32c32e4-c015-41dd-b2a9-b19d3b77c037",
+        "ToEq": "955b05dd-eed7-4ab6-9f7a-198f030f9927",
+        "length": 0,
+        "class": "AcLineSegment",
+        "name": null,
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 41,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110387822721,
+            -35.2698897874317
+          ],
+          [
+            149.110623857114,
+            -35.269881027968
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 41,
+        "GlobalID": "d73fc24e-ae2c-45bf-a322-ac76748c212a",
+        "CreationDate": "Tue, 15 Dec 2020 06:39:28 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:08:29 GMT",
+        "Editor": "cmacana",
+        "FromEq": "e32c32e4-c015-41dd-b2a9-b19d3b77c037",
+        "ToEq": "481d6e3c-2ac0-45be-bdb8-ebc8fb354d3c",
+        "length": 0,
+        "class": "AcLineSegment",
+        "name": null,
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 42,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110312720868,
+            -35.2719219574279
+          ],
+          [
+            149.109862109754,
+            -35.2724475103369
+          ],
+          [
+            149.10987283859,
+            -35.2724825470762
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 42,
+        "GlobalID": "bc44a3dd-17f6-4a5f-8015-2037ef93d507",
+        "CreationDate": "Thu, 17 Dec 2020 03:09:29 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:07:23 GMT",
+        "Editor": "cmacana",
+        "FromEq": "d2127ed8-de59-427a-a22f-ac7765637b9f",
+        "ToEq": "4c67ad24-7bcb-4161-a410-23196419aab4",
+        "length": null,
+        "class": "AcLineSegment",
+        "name": "acls7",
+        "baseVoltage": "415V"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 43,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            149.110312720868,
+            -35.2719219574279
+          ],
+          [
+            149.110931092326,
+            -35.2723286025698
+          ],
+          [
+            149.110920363489,
+            -35.2723329821695
+          ]
+        ]
+      },
+      "properties": {
+        "OBJECTID": 43,
+        "GlobalID": "2dc3c15f-58ba-4158-9648-d4014aa5aa7a",
+        "CreationDate": "Thu, 17 Dec 2020 03:33:15 GMT",
+        "Creator": "cmacana",
+        "EditDate": "Thu, 17 Dec 2020 06:07:42 GMT",
+        "Editor": "cmacana",
+        "FromEq": "cfbe657b-b144-40c6-899d-ef8a1c56d052",
+        "ToEq": "4c67ad24-7bcb-4161-a410-23196419aab4",
+        "length": null,
+        "class": "AcLineSegment",
+        "name": "acls8",
+        "baseVoltage": "415V"
+      }
+    }
+  ]
+}
