@@ -33,7 +33,7 @@ class Network:
 
     def __init__(self, namespace='evolve'):
         self.namespace = namespace
-        self.path = 'BasicFeeder.geojson'
+        self.path = '../../../evolve-python-sdk-tests/src/BasicFeeder.geojson'
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_json_file('cim-mapping.json')
         self.config_file = read_json_file('geojson-config.json')

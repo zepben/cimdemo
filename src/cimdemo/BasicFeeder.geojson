@@ -28,7 +28,8 @@
         "baseVoltage": "11kV",
         "Lat": "-35.2696664208097",
         "Lon": "149.10905744704937",
-        "name": "Source"
+        "name": "Source",
+        "headTerminal": null
       }
     },
     {
@@ -46,13 +47,14 @@
         "GlobalID": "88ef355c-edc9-4a70-b205-df6334bdddde",
         "CreationDate": "Tue, 15 Dec 2020 06:18:50 GMT",
         "Creator": "cmacana",
-        "EditDate": "Tue, 15 Dec 2020 06:18:50 GMT",
+        "EditDate": "Tue, 22 Dec 2020 05:23:43 GMT",
         "Editor": "cmacana",
         "class": "PowerTransformer",
         "baseVoltage": "11kV",
         "Lat": "-35.26964014234307",
         "Lon": "149.10941149863936",
-        "name": null
+        "name": "tx1",
+        "headTerminal": null
       }
     },
     {
@@ -70,13 +72,14 @@
         "GlobalID": "63fd609b-4a25-429f-a665-60fb095338ed",
         "CreationDate": "Tue, 15 Dec 2020 06:20:32 GMT",
         "Creator": "cmacana",
-        "EditDate": "Tue, 15 Dec 2020 06:20:32 GMT",
+        "EditDate": "Tue, 22 Dec 2020 05:29:17 GMT",
         "Editor": "cmacana",
         "class": "Breaker",
         "baseVoltage": "11kV",
         "Lat": "-35.269618243614396",
         "Lon": "149.10967971954085",
-        "name": null
+        "name": null,
+        "headTerminal": 1
       }
     },
     {
@@ -100,7 +103,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.27061681962318",
         "Lon": "149.11003377113082",
-        "name": null
+        "name": null,
+        "headTerminal": null
       }
     },
     {
@@ -124,7 +128,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.2700474576177",
         "Lon": "149.11010887298323",
-        "name": null
+        "name": null,
+        "headTerminal": null
       }
     },
     {
@@ -148,7 +153,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.27128253012409",
         "Lon": "149.110248347852",
-        "name": null
+        "name": null,
+        "headTerminal": null
       }
     },
     {
@@ -172,7 +178,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.27192195742791",
         "Lon": "149.11031272086836",
-        "name": null
+        "name": null,
+        "headTerminal": null
       }
     },
     {
@@ -196,7 +203,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.271930716670994",
         "Lon": "149.1108598915074",
-        "name": "ec2"
+        "name": "ec2",
+        "headTerminal": null
       }
     },
     {
@@ -220,7 +228,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.269758395375725",
         "Lon": "149.11037709388472",
-        "name": "ec1"
+        "name": "ec1",
+        "headTerminal": null
       }
     },
     {
@@ -244,7 +253,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.27024892463094",
         "Lon": "149.11048438224535",
-        "name": "ec3"
+        "name": "ec3",
+        "headTerminal": null
       }
     },
     {
@@ -268,7 +278,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.269881027967976",
         "Lon": "149.1106238571141",
-        "name": "es1"
+        "name": "es1",
+        "headTerminal": null
       }
     },
     {
@@ -292,7 +303,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.269889787431744",
         "Lon": "149.11038782272078",
-        "name": null
+        "name": null,
+        "headTerminal": null
       }
     },
     {
@@ -316,7 +328,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.27244751033687",
         "Lon": "149.10986210975383",
-        "name": "ec4"
+        "name": "ec4",
+        "headTerminal": null
       }
     },
     {
@@ -340,7 +353,8 @@
         "baseVoltage": "415V",
         "Lat": "-35.272328602569814",
         "Lon": "149.1109310923255",
-        "name": "ec7"
+        "name": "ec7",
+        "headTerminal": null
       }
     },
     {
