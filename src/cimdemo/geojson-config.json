@@ -22,5 +22,9 @@
   "toEq": {
     "evolve": "ToEq",
     "essential": "toNode"
+  },
+  "headTerminal": {
+    "evolve": "headTerminal",
+    "essential": "headTerminal"
   }
 }

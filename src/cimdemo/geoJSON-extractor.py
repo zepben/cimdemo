@@ -38,6 +38,8 @@ class Network:
         self.mapping = read_json_file('cim-mapping.json')
         self.config_file = read_json_file('geojson-config.json')
         self.feeder_name = os.path.basename(self.path)
+        self.fdr = ev.Feeder(name='basicFeeder')
+        self.headEqMrid = None
         self.gdf = gp.read_file(self.path)
         self.ns = ev.NetworkService()
         self.ds = ev.DiagramService()
@@ -92,19 +94,21 @@ class Network:
             raise Exception(f'GIS Class: {row[self.get_field_name("class")]} is not mapped to any Evolve Profile class')
         return eq
 
-    def add_feeder(self):
-        fdr = ev.Feeder(name=self.feeder_name)
+    def add_equipment(self):
         for index, row in self.gdf.iterrows():
             loc = self.add_location(row)
             eq = self.create_equipment(row, loc)
             if eq is not None:
                 self.ns.add(eq)
-                fdr.add_equipment(eq)
-                eq.add_container(fdr)
+                self.fdr.add_equipment(eq)
+                eq.add_container(self.fdr)
+                if row[self.get_field_name("headTerminal")] == 1:
+                    self.headEqMrid = row[self.get_field_name("mrid")]
+                    logger.info(f'Detecting head Equipment: {self.headEqMrid}')
             else:
                 logger.error(f'Equipment not mapped to a Evolve Profile class: {row[self.get_field_name("mrid")]}')
         self.connect_equipment()
-        self.ns.add(fdr)
+        self.ns.add(self.fdr)
         return self.ns
 
     def connect_equipment(self):
@@ -114,12 +118,16 @@ class Network:
                 logger.info(f'Connecting: {(row[self.get_field_name("fromEq")])} to {row[self.get_field_name("toEq")]} with acls: {row[self.get_field_name("mrid")]}')
                 eq0 = self.ns.get(mrid=str(row[self.get_field_name('mrid')]))
                 t01 = ev.Terminal(conducting_equipment=eq0)
+#
             t02 = ev.Terminal(conducting_equipment=eq0)
             eq0.add_terminal(t01)
             eq0.add_terminal(t02)
             eq1 = self.ns.get(mrid=row[self.get_field_name('fromEq')])
             t11 = ev.Terminal(conducting_equipment=eq1)
             eq1.add_terminal(t11)
+            if eq1.mrid == self.headEqMrid:
+                logger.info(f'Assigning head terminal to Feeder for the Equipment {eq1.mrid}')
+                setattr(self.fdr, 'normal_head_terminal',t11)
             eq2 = self.ns.get(mrid=row[self.get_field_name('toEq')])
             t21 = ev.Terminal(conducting_equipment=eq2)
             eq2.add_terminal(t21)
@@ -127,6 +135,7 @@ class Network:
             self.ns.add(t11)
             self.ns.add(t02)
             self.ns.add(t21)
+            self.ns.add(self.fdr)
             self.ns.connect_terminals(t01, t11)
             self.ns.connect_terminals(t02, t21)
 
@@ -158,7 +167,7 @@ async def main():
         client_secret = args.client_secret
         client_id = args.client_id
     # Creates a Network
-    network = Network().add_feeder()
+    network = Network().add_equipment()
 
     # Connect to a local cimcap instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
