@@ -31,9 +31,9 @@ def read_json_file(path):
 
 class Network:
 
-    def __init__(self, namespace='evolve'):
+    def __init__(self, path ,namespace='evolve'):
         self.namespace = namespace
-        self.path = '../../../evolve-python-sdk-tests/src/BasicFeeder.geojson'
+        self.path = path
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_json_file('cim-mapping.json')
         self.config_file = read_json_file('geojson-config.json')
@@ -150,6 +150,8 @@ async def main():
     parser.add_argument('--ca', help='CA trust chain', default="")
     parser.add_argument('--cert', help='Signed certificate for your client', default="")
     parser.add_argument('--key', help='Private key for signed cert', default="")
+    parser.add_argument('--geojson_path', help='Path of the geojson input file',
+                        default= "../../../evolve-python-sdk-tests/src/BasicFeeder.geojson")
     args = parser.parse_args()
     ca = cert = key = client_id = client_secret = None
     if not args.client_id or not args.client_secret or not args.ca or not args.cert or not args.key:
@@ -165,7 +167,7 @@ async def main():
         client_secret = args.client_secret
         client_id = args.client_id
     # Creates a Network
-    network = Network().add_equipment()
+    network = Network(args.geojson_path).add_equipment()
 
     # Connect to a local cimcap instance using credentials if provided.
     async with connect_async(host=args.server, rpc_port=args.rpc_port, conf_address=args.conf_address,
