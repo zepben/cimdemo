@@ -124,12 +124,15 @@ class Network:
             eq1 = self.ns.get(mrid=row[self.get_field_name('fromEq')])
             t11 = ev.Terminal(conducting_equipment=eq1)
             eq1.add_terminal(t11)
-            if eq1.mrid == self.headEqMrid:
-                logger.info(f'Assigning head terminal to Feeder for the Equipment {eq1.mrid}')
-                setattr(self.fdr, 'normal_head_terminal', t11)
             eq2 = self.ns.get(mrid=row[self.get_field_name('toEq')])
             t21 = ev.Terminal(conducting_equipment=eq2)
             eq2.add_terminal(t21)
+            if eq1.mrid == self.headEqMrid:
+                logger.info(f'Assigning head terminal to Feeder for the Equipment {eq1.mrid}')
+                setattr(self.fdr, 'normal_head_terminal', t11)
+            if eq2.mrid == self.headEqMrid:
+                logger.info(f'Assigning head terminal to Feeder for the Equipment {eq2.mrid}')
+                setattr(self.fdr, 'normal_head_terminal', t21)
             self.ns.add(t01)
             self.ns.add(t11)
             self.ns.add(t02)
