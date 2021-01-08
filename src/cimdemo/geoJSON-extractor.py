@@ -31,9 +31,10 @@ def read_json_file(path):
 
 class Network:
 
-    def __init__(self, path ,namespace='evolve'):
+    def __init__(self, path, namespace='evolve'):
         self.namespace = namespace
         self.path = path
+        logger.info(f'Creating Network from: {path}')
         self.geojson_file = read_json_file(self.path)
         self.mapping = read_json_file('cim-mapping.json')
         self.config_file = read_json_file('geojson-config.json')
@@ -127,10 +128,10 @@ class Network:
             eq2 = self.ns.get(mrid=row[self.get_field_name('toEq')])
             t21 = ev.Terminal(conducting_equipment=eq2)
             eq2.add_terminal(t21)
-            if eq1.mrid == self.headEqMrid:
+            if eq1.mrid == self.headEqMrid and self.fdr.normal_head_terminal is None:
                 logger.info(f'Assigning head terminal to Feeder for the Equipment {eq1.mrid}')
                 setattr(self.fdr, 'normal_head_terminal', t11)
-            if eq2.mrid == self.headEqMrid:
+            if eq2.mrid == self.headEqMrid and self.fdr.normal_head_terminal is None:
                 logger.info(f'Assigning head terminal to Feeder for the Equipment {eq2.mrid}')
                 setattr(self.fdr, 'normal_head_terminal', t21)
             self.ns.add(t01)
