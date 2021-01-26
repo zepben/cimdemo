@@ -1,0 +1,30 @@
+{
+  "class": {
+    "evolve": "class",
+    "essential": "class"
+  },
+    "mrid": {
+      "evolve": "GlobalID",
+      "essential": "id"
+    },
+    "name": {
+      "evolve": "OBJECTID",
+      "essential": "name"
+    },
+  "baseVoltage": {
+    "evolve": "baseVoltage",
+    "essential": "operating voltage"
+  },
+  "fromEq": {
+    "evolve": "FromEq",
+    "essential": "fromNode"
+  },
+  "toEq": {
+    "evolve": "ToEq",
+    "essential": "toNode"
+  },
+  "headTerminal": {
+    "evolve": "headTerminal",
+    "essential": "headTerminal"
+  }
+}
